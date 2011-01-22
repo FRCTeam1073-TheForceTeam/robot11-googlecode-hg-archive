@@ -1,3 +1,4 @@
+//frc 2011 evin 
 #include "LNDrive.h"
 
 LNDrive::LNDrive(Jaguar *lmj, Jaguar *rmj, Joystick *lj, Joystick *rj, Navigation *n)
