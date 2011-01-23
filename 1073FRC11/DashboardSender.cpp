@@ -26,7 +26,7 @@ DashboardSender::SendData()
 	int module = 4;
 	dash.AddU8(DigitalModule::GetInstance(module)->GetRelayForward()); // relays (forward)
 	dash.AddU8(DigitalModule::GetInstance(module)->GetRelayReverse()); // relays (reverse)
-		
+#if 0		
 	dash.AddU16((short)DigitalModule::GetInstance(module)->GetDIO()); // state
 	dash.AddU16(DigitalModule::GetInstance(module)->GetDIODirection());//direction
 
@@ -58,7 +58,8 @@ DashboardSender::SendData()
 	// port #'s
 	dash.AddU8(PWM_LeftMotorPort); // l motor
 	dash.AddU8(PWM_RightMotorPort); // r motor
-	
+#endif	
 	dash.FinalizeCluster();
 	dash.Finalize();
+	
 }

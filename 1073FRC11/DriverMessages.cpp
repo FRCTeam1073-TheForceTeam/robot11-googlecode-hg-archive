@@ -1,20 +1,44 @@
 #include "drivermessages.h"
 
 
-DriverMessages::DriverMessages(Joystick *jStick)
+DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr)
 {
 	menuJoystick = jStick;
+	gyro = gyroPtr;
 	displayIndex = 0;
 }
 
 void DriverMessages::PeriodicService()
 {
-	bool isButtonOnePressed = menuJoystick->GetRawButton(1);
+	bool isButtonSixPressed = menuJoystick->GetRawButton(6);
+	static bool wasButtonSixPressed = false;
+	
+	
+	
 	float xVal = menuJoystick->GetX();
 	float yVal = menuJoystick->GetY();
 	
-	PrintIt(0, "JoyStick Test: Button = %s", isButtonOnePressed ? "Pressed" : "Not");
-	PrintIt(1, "X --> %6.3f Y --> %6.3f",xVal, yVal); 
+	
+	switch(displayIndex){
+	
+	case 0:		PrintIt(0, "Joystick Test");
+				PrintIt(1, "X%6.3f Y%6.3f",xVal, yVal);
+				break;
+	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
+				break;
+				
+				
+	}
+	SendTextLines();
+	
+	
+	if(isButtonSixPressed && !wasButtonSixPressed){   	// Is the button currently pressed
+		displayIndex += 1;		// Set bext display count.
+		if(displayIndex > 1){
+			displayIndex = 0;
+		}
+	}
+	wasButtonSixPressed = isButtonSixPressed;
 }
 
 void

@@ -8,6 +8,7 @@
 #include "Minibot.h"
 #include "DashboardSender.h"
 #include "DriverMessages.h"
+#include "cameramanager.h"
 
 class Robot1073;
 
@@ -18,6 +19,7 @@ class Robot1073: public SimpleRobot
 		Robot1073();
 		void Autonomous();
 		void OperatorControl();
+		void ZombieZonePeriodicService();
 	
 	private:
 
@@ -38,8 +40,10 @@ class Robot1073: public SimpleRobot
 		Minibot *minibot;
 		DashboardSender *dashboardSender;
 		DriverMessages *driverMessages;
+		CameraManager *cameraManager;
+		
 		void InitializeTheZombieZone(Robot1073 *ptr);
-		void ZombieZonePeriodicService();
+
 };
 
 
