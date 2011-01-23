@@ -9,10 +9,17 @@ class DashboardSender
 {
 	public:
 		
-		DashboardSender();
-		
-	private:
+		DashboardSender(DriverStation *dash, Encoder *lEncoder, Encoder *rEncoder, Joystick *lJoystick, Joystick *rJoystick, Gyro *gyr);
+		void SendData(void);
+		void SendIODiagnosticStuff(void);
 
+	private:
+		DriverStation *ds;
+		Encoder *leftEncoder;
+		Encoder *rightEncoder;
+		Joystick *leftJoystick;
+		Joystick *rightJoystick;
+		Gyro *gyro;
 };
 
 #endif
