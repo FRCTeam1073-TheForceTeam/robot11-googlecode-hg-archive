@@ -2,7 +2,7 @@
 /* These comments are not useful */
 #include "LNDrive.h"
 
-LNDrive::LNDrive(Jaguar *lmj, Jaguar *rmj, Joystick *lj, Joystick *rj, Navigation *n)
+LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n)
 {
 	leftJoystick = lj;
 	rightJoystick = rj;

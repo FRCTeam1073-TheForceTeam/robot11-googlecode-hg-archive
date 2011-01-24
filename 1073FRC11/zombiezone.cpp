@@ -12,23 +12,20 @@
  *  
  * *****************************************************************************************************/
 
-
-
-// This important static is to allow our launched TwilightZone thread to access our main Robot class member functions.
-// This static (not quite a global) is used exclusively to call the main bots TwilightZonePeriodicServics().
-static Robot1073 *robot1073;
+// This important static is to allow our launched ZombieZone thread to access our main Robot class. 
+// This static is used exclusively to call the main bots ZombieZonePeriodicServics().
+static Robot1073 *pRobot1073;
 const float periodicIntervalSec = .05;
 
 int
 ZombieFunction()
 {
-	while (1)				// Run this loop forever once launched...
+	while (1)  // No stopping the Zombie, Life before Autonomous....
 	{
 		Wait(periodicIntervalSec);		// Wait 50ms for a 20Hz update rate...
-		robot1073->ZombieZonePeriodicService();	
+		pRobot1073->ZombieZonePeriodicService();	
 	}
 }
-
 
 
 SEM_ID ZombieSemaphore = 0;
@@ -37,7 +34,7 @@ void
 Robot1073::InitializeTheZombieZone(Robot1073 *ptr)
 {
 	printf("Zombie Initiation ocurred\n");
-	robot1073 = ptr;
+	pRobot1073 = ptr;
 	ZombieTask = new Task("ZombieFunction", (FUNCPTR)ZombieFunction );
 	ZombieSemaphore = semMCreate(SEM_DELETE_SAFE | SEM_INVERSION_SAFE); // synchronize access to multi-value registers
 	ZombieTask->Start();

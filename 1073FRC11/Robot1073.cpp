@@ -1,6 +1,11 @@
-// FRC 11 Season
-
-
+//////////////////////////////////////////////////////////
+// Filename: Robot1073.cpp
+// Author:   
+// Date:     January 23, 2011
+//
+// Description: This file contains the main defintion for the Team1073 Robot.
+//
+//////////////////////////////////////////////////////////
 #include "Robot1073.h"
 
 
@@ -10,8 +15,16 @@ Robot1073::Robot1073(void)
 {
 	cameraManager = new CameraManager();
 	driverStation = DriverStation::GetInstance();
+
+#if 0
 	leftMotorJaguar = new Jaguar(PWM_LeftMotorPort);
 	rightMotorJaguar = new Jaguar(PWM_RightMotorPort);
+#else
+	leftMotorJaguar = new CANJaguar(PWM_LeftMotorPort);
+	rightMotorJaguar = new CANJaguar(PWM_RightMotorPort);
+	
+#endif
+	
 	
 	leftJoystick = new Joystick(USB_LeftJoyStickPort);
 	rightJoystick = new Joystick(USB_RightJoyStickPort);

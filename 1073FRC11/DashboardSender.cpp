@@ -1,3 +1,12 @@
+//////////////////////////////////////////////////////////
+// Filename: Dashboardender.cpp
+// Author:   
+// Date:     January 23, 2011
+//
+// Description: This file contains class defintion for the DashBoardSender responible for sending all data 
+// to the custom dashboard.
+//
+//////////////////////////////////////////////////////////
 #include "DashboardSender.h"
 
 DashboardSender::DashboardSender(DriverStation *dash, 

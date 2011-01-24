@@ -10,7 +10,7 @@ class LNDrive
 {
 	public:
 		
-		LNDrive(Jaguar *lmj, Jaguar *rmj, Joystick *lj, Joystick *rj, Navigation *n);
+		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n);
 		void PeriodicService();
 		
 	private:
@@ -35,8 +35,8 @@ class LNDrive
 		
 		Joystick *leftJoystick;
 		Joystick *rightJoystick;
-		Jaguar *leftMotorJaguar;
-		Jaguar *rightMotorJaguar;
+		SpeedController *leftMotorJaguar;
+		SpeedController *rightMotorJaguar;
 		Navigation *navigation;
 		
 		float left;

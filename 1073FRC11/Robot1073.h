@@ -7,6 +7,14 @@
 #include "Navigation.h"
 #include "Minibot.h"
 #include "DashboardSender.h"
+//////////////////////////////////////////////////////////
+// Filename: Robot1073.h
+// Author:   
+// Date:     January 23, 2011
+//
+// Description: This file contains the main defintion for the Team1073 Robot.
+//
+//////////////////////////////////////////////////////////
 #include "DriverMessages.h"
 #include "cameramanager.h"
 
@@ -25,8 +33,8 @@ class Robot1073: public SimpleRobot
 
 		AxisCamera &camera;          // This reference syntax necessary because of the referance associated with GetInstance().
 		DriverStation *driverStation;
-		Jaguar *leftMotorJaguar;
-		Jaguar *rightMotorJaguar;
+		SpeedController *leftMotorJaguar;
+		SpeedController *rightMotorJaguar;
 		Joystick *leftJoystick;
 		Joystick *rightJoystick;
 		Encoder *leftEncoder;
