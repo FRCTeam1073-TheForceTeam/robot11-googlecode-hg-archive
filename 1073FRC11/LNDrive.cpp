@@ -16,7 +16,7 @@ LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joyst
 
 void LNDrive::PeriodicService()
 {
-	
+	TankDrive();
 }
 
 void LNDrive::TankDrive()
@@ -24,12 +24,12 @@ void LNDrive::TankDrive()
 	left = leftJoystick->GetY();
 	right = rightJoystick->GetY();
 	
-	if(fabs(left) > .1)
+	if(fabs(left) < .1)
 	{
 		left = 0;
 	}
 	
-	if(fabs(right) > .1)
+	if(fabs(right) < .1)
 	{
 		right = 0;
 	}
