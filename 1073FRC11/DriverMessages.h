@@ -1,4 +1,11 @@
-#ifndef DRIVERMESSAGES_H_
+//////////////////////////////////////////////////////////
+// Filename: DriverMessage.h
+// Author:   
+// Date:     January 24, 2011
+//
+// 
+//
+//////////////////////////////////////////////////////////#ifndef DRIVERMESSAGES_H_
 #define DRIVERMESSAGES_H_
 
 #include "userincludes.h"
