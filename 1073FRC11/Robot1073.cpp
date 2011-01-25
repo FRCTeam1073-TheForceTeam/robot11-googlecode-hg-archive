@@ -16,7 +16,7 @@ Robot1073::Robot1073(void)
 	cameraManager = new CameraManager();
 	driverStation = DriverStation::GetInstance();
 
-#if 0
+#if 1
 	leftMotorJaguar = new Jaguar(PWM_LeftMotorPort);
 	rightMotorJaguar = new Jaguar(PWM_RightMotorPort);
 #else
@@ -25,6 +25,7 @@ Robot1073::Robot1073(void)
 	
 #endif
 	
+	// Should rev
 	
 	leftJoystick = new Joystick(USB_LeftJoyStickPort);
 	rightJoystick = new Joystick(USB_RightJoyStickPort);

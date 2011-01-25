@@ -34,6 +34,7 @@ void LNDrive::TankDrive()
 		right = 0;
 	}
 	
+	
 	Scale();
 	SetMotors();
 }
@@ -66,7 +67,9 @@ void LNDrive::Scale()
 void LNDrive::SetMotors()
 {
 	leftMotorJaguar->Set(left);
-	rightMotorJaguar->Set(right);
+
+	rightMotorJaguar->Set(-right);
+	
 }
 
 void LNDrive::StartFollowLine()
