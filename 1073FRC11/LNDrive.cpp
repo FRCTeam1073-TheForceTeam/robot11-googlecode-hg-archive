@@ -2,7 +2,7 @@
 /* These comments are not useful */
 #include "LNDrive.h"
 
-LNDrive::LNDrive(Jaguar *lmj, Jaguar *rmj, Joystick *lj, Joystick *rj, Navigation *n)
+LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n)
 {
 	leftJoystick = lj;
 	rightJoystick = rj;
@@ -16,7 +16,7 @@ LNDrive::LNDrive(Jaguar *lmj, Jaguar *rmj, Joystick *lj, Joystick *rj, Navigatio
 
 void LNDrive::PeriodicService()
 {
-	
+	TankDrive();
 }
 
 void LNDrive::TankDrive()
@@ -24,15 +24,16 @@ void LNDrive::TankDrive()
 	left = leftJoystick->GetY();
 	right = rightJoystick->GetY();
 	
-	if(fabs(left) > .1)
+	if(fabs(left) < .1)
 	{
 		left = 0;
 	}
 	
-	if(fabs(right) > .1)
+	if(fabs(right) < .1)
 	{
 		right = 0;
 	}
+	
 	
 	Scale();
 	SetMotors();
@@ -66,7 +67,9 @@ void LNDrive::Scale()
 void LNDrive::SetMotors()
 {
 	leftMotorJaguar->Set(left);
-	rightMotorJaguar->Set(right);
+
+	rightMotorJaguar->Set(-right);
+	
 }
 
 void LNDrive::StartFollowLine()
