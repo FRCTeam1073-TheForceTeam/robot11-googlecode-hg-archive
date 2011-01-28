@@ -1,10 +1,12 @@
 #include "drivermessages.h"
 
 
-DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr)
+DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoder *lEncoder, Encoder *rEncoder)
 {
 	menuJoystick = jStick;
 	gyro = gyroPtr;
+	leftEncoder = lEncoder;
+	rightEncoder = rEncoder;
 	displayIndex = 0;
 }
 
@@ -26,16 +28,22 @@ void DriverMessages::PeriodicService()
 				break;
 	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
 				break;
-				
-				
+	case 2:     PrintIt(0, "Encoders:");
+	 			PrintIt(1, "l:%f", leftEncoder->GetDistance());
+	 			PrintIt(2, "r:%f", rightEncoder->GetDistance());
+				break;
+
+	// Should not get here ever, display index not properly range checked below...
+	default:	PrintIt(0,"Bad Index!!!!");
+				break;
 	}
 	SendTextLines();
 	
 	
 	if(isButtonSixPressed && !wasButtonSixPressed){   	// Is the button currently pressed
 		displayIndex += 1;		// Set bext display count.
-		if(displayIndex > 1){
-			displayIndex = 0;
+		if(displayIndex > 2){   // Increment the value until the last number in case statemen
+			displayIndex = 0;	// Cycle back to the 0th index
 		}
 	}
 	wasButtonSixPressed = isButtonSixPressed;

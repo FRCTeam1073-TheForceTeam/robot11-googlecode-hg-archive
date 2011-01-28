@@ -8,6 +8,21 @@
 //////////////////////////////////////////////////////////
 #include "Robot1073.h"
 
+void Robot1073::ResetEncoders()
+{
+	leftEncoder->Reset();
+	rightEncoder->Reset();		
+}
+void Robot1073::InitEncoders()
+{
+	ResetEncoders();
+
+	// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
+	leftEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
+	rightEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
+	leftEncoder->Start();
+	rightEncoder->Start();	
+}
 
 Robot1073::Robot1073(void)
 : camera (AxisCamera::GetInstance())					// This initialization syntax necessary because of the referance associated with GetInstance().
@@ -16,23 +31,25 @@ Robot1073::Robot1073(void)
 	cameraManager = new CameraManager();
 	driverStation = DriverStation::GetInstance();
 
-#if 1
+	
+// Both the PWM & CAN Jaguars are suportable with this simple comple time option...	
+#if !USE_CAN_JAGUARS
 	leftMotorJaguar = new Jaguar(PWM_LeftMotorPort);
 	rightMotorJaguar = new Jaguar(PWM_RightMotorPort);
 #else
-	leftMotorJaguar = new CANJaguar(PWM_LeftMotorPort);
-	rightMotorJaguar = new CANJaguar(PWM_RightMotorPort);
-	
+	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
+	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
 #endif
 	
 	// Should rev
-	
 	leftJoystick = new Joystick(USB_LeftJoyStickPort);
 	rightJoystick = new Joystick(USB_RightJoyStickPort);
 	
-	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort);
-	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort);
+	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort, IsLeftEncoderReversed);
+	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
 	
+	
+	InitEncoders(); // reset and start the encoders
 	
 	gyro = new Gyro(ANALOG_GyroPort);
 	xAxisAccelerometer = new Accelerometer(ANALOG_XAxisAccerometerPort);
@@ -42,20 +59,25 @@ Robot1073::Robot1073(void)
 	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation);
 	minibot = new Minibot();
 	dashboardSender = new DashboardSender(driverStation,leftEncoder,rightEncoder,leftJoystick,rightJoystick, gyro);
-	driverMessages = new DriverMessages(leftJoystick, gyro);
+	driverMessages = new DriverMessages(leftJoystick, gyro, leftEncoder, rightEncoder);
 	cameraManager->StartCamera();
 	
+	// Launch the background thread....
 	InitializeTheZombieZone(this);
 	
 }
 
 void Robot1073::Autonomous(void)
 {
+	ResetEncoders();
 	
+	// Some code goes here ?  
+	// Go & follow Line ?
 }
 
 void Robot1073::OperatorControl(void)
 {
+	ResetEncoders();
 	
 	while (IsOperatorControl())
 	{

@@ -20,7 +20,7 @@ class DashboardSender
 		
 		DashboardSender(DriverStation *dash, Encoder *lEncoder, Encoder *rEncoder, Joystick *lJoystick, Joystick *rJoystick, Gyro *gyr);
 		void SendData(void);
-		void SendIODiagnosticStuff(void);
+		void SendConstants(void);
 
 	private:
 		DriverStation *ds;
