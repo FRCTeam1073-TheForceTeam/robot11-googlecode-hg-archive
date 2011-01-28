@@ -69,6 +69,7 @@ void LNDrive::SetMotors()
 	// Set the left & right motor outputs, reversing if necessary...
 	leftMotorJaguar->Set(IsLeftMotorReversed ? -left : left);			
 	rightMotorJaguar->Set(IsRightMotorReversed ? -right : right);
+	//printf("%f %f\n", left, right);
 
 }
 

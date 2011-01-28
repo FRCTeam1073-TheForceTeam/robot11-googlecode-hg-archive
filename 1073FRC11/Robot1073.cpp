@@ -8,6 +8,21 @@
 //////////////////////////////////////////////////////////
 #include "Robot1073.h"
 
+void Robot1073::ResetEncoders()
+{
+	leftEncoder->Reset();
+	rightEncoder->Reset();		
+}
+void Robot1073::InitEncoders()
+{
+	ResetEncoders();
+
+	// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
+	leftEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
+	rightEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
+	leftEncoder->Start();
+	rightEncoder->Start();	
+}
 
 Robot1073::Robot1073(void)
 : camera (AxisCamera::GetInstance())					// This initialization syntax necessary because of the referance associated with GetInstance().
@@ -34,6 +49,8 @@ Robot1073::Robot1073(void)
 	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
 	
 	
+	InitEncoders(); // reset and start the encoders
+	
 	gyro = new Gyro(ANALOG_GyroPort);
 	xAxisAccelerometer = new Accelerometer(ANALOG_XAxisAccerometerPort);
 	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccerometerPort);
@@ -52,12 +69,15 @@ Robot1073::Robot1073(void)
 
 void Robot1073::Autonomous(void)
 {
+	ResetEncoders();
+	
 	// Some code goes here ?  
 	// Go & follow Line ?
 }
 
 void Robot1073::OperatorControl(void)
 {
+	ResetEncoders();
 	
 	while (IsOperatorControl())
 	{

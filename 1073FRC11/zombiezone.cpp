@@ -33,7 +33,7 @@ Task *ZombieTask;
 void
 Robot1073::InitializeTheZombieZone(Robot1073 *ptr)
 {
-	printf("Zombie Initiation ocurred\n");
+	printf("Encoder test Zombie Initiation ocurred\n");
 	pRobot1073 = ptr;
 	ZombieTask = new Task("ZombieFunction", (FUNCPTR)ZombieFunction );
 	ZombieSemaphore = semMCreate(SEM_DELETE_SAFE | SEM_INVERSION_SAFE); // synchronize access to multi-value registers

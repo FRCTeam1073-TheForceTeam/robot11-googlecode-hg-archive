@@ -29,8 +29,8 @@ void DriverMessages::PeriodicService()
 	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
 				break;
 	case 2:     PrintIt(0, "Encoders:");
-	 			PrintIt(1, "l:%d", leftEncoder->GetRaw());
-	 			PrintIt(2, "l:%d", rightEncoder->GetRaw());
+	 			PrintIt(1, "l:%f", leftEncoder->GetDistance());
+	 			PrintIt(2, "r:%f", rightEncoder->GetDistance());
 				break;
 
 	// Should not get here ever, display index not properly range checked below...
