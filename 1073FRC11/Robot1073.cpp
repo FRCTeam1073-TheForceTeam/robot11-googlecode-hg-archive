@@ -65,6 +65,8 @@ Robot1073::Robot1073(void)
 	
 	// Launch the background thread....
 	InitializeTheZombieZone(this);
+	InitializeDashboardReceiverThread(this, dashboardReceiver);
+	
 	
 }
 
@@ -94,7 +96,6 @@ void Robot1073::ZombieZonePeriodicService()
 		dashboardSender->SendData();
 		driverMessages->PeriodicService();
 }
-
 
 START_ROBOT_CLASS(Robot1073);
 
