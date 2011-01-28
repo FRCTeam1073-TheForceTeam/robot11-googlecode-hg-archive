@@ -28,47 +28,44 @@ DashboardSender::SendData()
 	Dashboard &dash = DriverStation::GetInstance()->GetHighPriorityDashboardPacker();
 	dash.AddCluster();
 	
-	dash.AddU16(0xF37A);
-	for (int i = 1; i <= 8; i++)
-		dash.AddFloat((float) AnalogModule::GetInstance(1)->GetAverageVoltage(i)); // analogs
-
-	int module = 4;
-	dash.AddU8(DigitalModule::GetInstance(module)->GetRelayForward()); // relays (forward)
-	dash.AddU8(DigitalModule::GetInstance(module)->GetRelayReverse()); // relays (reverse)
-#if 0		
-	dash.AddU16((short)DigitalModule::GetInstance(module)->GetDIO()); // state
-	dash.AddU16(DigitalModule::GetInstance(module)->GetDIODirection());//direction
-
-
-	for (int i = 1; i <= 10; i++)
-				dash.AddU8((unsigned char) DigitalModule::GetInstance(module)->GetPWM(i)); // pwm's
+	dash.AddFloat(gyro->GetAngle());
 	
-	dash.AddU8((char)0x55);
-
-	unsigned short miscDataByte = 0;
-	if(true){ miscDataByte = miscDataByte + 1; } // supposed to be teleoperated
-	if(ds->IsAutonomous()){ miscDataByte = miscDataByte + 2; }
-	if(ds->IsEnabled()){ miscDataByte = miscDataByte + 4; }
-	if(ds->GetAlliance() == 1 /*kBlue*/){ miscDataByte += 8; }
-		
-	if(leftJoystick->GetButton(Joystick::kTriggerButton)){miscDataByte += 16;} // supposed to be diagnostic buttons
-	if(rightJoystick->GetButton(Joystick::kTriggerButton)){miscDataByte += 32;}
+#if 0
+	dash.AddFloat(xAxisAccelerometer->GetAcceleration());
+	dash.AddFloat(yAxisAccelerometer->GetAcceleration());
+	dash.AddFloat(navigation->GetXVel());
+	dash.AddFloat(navigation->GetYVel());
+	dash.AddFloat(navigation->GetX());
+	dash.AddFloat(navigation->GetY());
+	dash.AddFloat(navigation->GetSX());
+	dash.AddFloat(navigation->GetSY());
+	dash.AddI32(leftEncoder->GetRaw());
+	dash.AddI32(rightEncoder->GetRaw());
+	dash.AddFloat(leftMotorJaguar->Get());
+	dash.AddFloat(rightMotorJaguar->Get());
+	dash.AddFloat(0);   // DesiredSpeed
+#endif 
+	dash.AddFloat(0);   // DesiredAngle
+	dash.AddU32(0);     // LastRetroAcquisition
+	dash.AddU16(0);     // ushort[6] Columns
+	dash.AddFloat(0);   // columnAngle
+	dash.AddFloat(0);   // verticalAngle
+	dash.AddFloat(0);   // RetroXEst
+	dash.AddFloat(0);   // RetroYEst
+	dash.AddFloat(0);   // ArmHeight
+	dash.AddFloat(0);   // DesiredArmHeight
+	dash.AddFloat(0);   // ArmMotor
+	dash.AddFloat(0);   // ElevatorHeight
+	dash.AddFloat(0);   // DesiredElevatorHeight
+	dash.AddFloat(0);   // ElevatorMotor
 	
-	dash.AddFloat(ds->GetBatteryVoltage()); // battery voltage
-	dash.AddFloat(leftJoystick->GetX()); // leftJoystick x-axis
-	dash.AddFloat(leftJoystick->GetY()); // leftJoystick y-axis
-	dash.AddFloat(rightJoystick->GetX()); // rightJoystick x-axis
-	dash.AddFloat(rightJoystick->GetY()); // rightJoystick y-axis
-	dash.AddFloat(gyro->GetAngle()); // gyro yaw
-	//printf("heading = %f\n",navigation->GetHeading());
-	dash.AddFloat((float)leftEncoder->GetDistance()); // left encoder
-	dash.AddFloat((float)rightEncoder->GetDistance()); // right encoder
-	
-	// port #'s
-	dash.AddU8(PWM_LeftMotorPort); // l motor
-	dash.AddU8(PWM_RightMotorPort); // r motor
-#endif	
 	dash.FinalizeCluster();
 	dash.Finalize();
+	
+}
+
+void
+DashboardSender::SendConstants()
+{
 	
 }

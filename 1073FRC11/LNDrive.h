@@ -49,8 +49,8 @@ class LNDrive
 		SpeedController *rightMotorJaguar;
 		Navigation *navigation;
 		
-		float left;
-		float right;
+		float left;		// What is left ?????????
+		float right;	// what is right ????????
 		float desiredAngle;
 		float currentAngle;
 		

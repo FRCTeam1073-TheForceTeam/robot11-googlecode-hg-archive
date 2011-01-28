@@ -45,6 +45,8 @@ class Robot1073: public SimpleRobot
 		CameraManager *cameraManager;
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
+		void ResetEncoders();
+		void InitEncoders();
 
 };
 

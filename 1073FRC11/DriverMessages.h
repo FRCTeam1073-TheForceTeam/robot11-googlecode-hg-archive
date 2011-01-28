@@ -17,7 +17,7 @@ class DriverMessages;
 class DriverMessages
 {
 	public:
-		DriverMessages(Joystick *joystick, Gyro *gyroPtr);
+		DriverMessages(Joystick *joystick, Gyro *gyroPtr, Encoder *lEncoder, Encoder *rEncoder);
 		void PeriodicService();
 		
 		
@@ -28,6 +28,8 @@ class DriverMessages
 		int displayIndex;
 		Joystick *menuJoystick;
 		Gyro *gyro;
+		Encoder *leftEncoder;
+		Encoder *rightEncoder;
 		char lineText[10][81];	// Let's reserve space for 4 lines of 81 characters each
 			
 			

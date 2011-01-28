@@ -11,6 +11,10 @@ class Navigation
 		Navigation(Encoder *le, Encoder *re, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t);
 		float GetX();
 		float GetY();
+		float GetXVel();
+		float GetYVel();
+		float GetSX();
+		float GetSY();
 		float GetHeading();
 		void PeriodicService();
 		float ToRadians(float degrees);

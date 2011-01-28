@@ -37,11 +37,18 @@ enum {ANALOG_PORT_1 = 1,
 	  ANALOG_PORT_7,
 	  ANALOG_PORT_8};
 
-//PWM Ports
+// CAN Address Assignments
+#define USE_CAN_JAGUARS false
+	const unsigned int CAN_LeftMotorAddress = 1; 
+	const unsigned int CAN_RightMotorAddress = 2; 
 
 	static const int PWM_LeftMotorPort = PWM_PORT_1; 
 	static const int PWM_RightMotorPort = PWM_PORT_2;
-	static const int PWM_CameraPort = PWM_PORT_5;
+	static const int PWM_CameraTiltServoPort = PWM_PORT_5;
+
+	// Motor orientation for BOTH CAN and PWM Jaguars
+	static const bool IsLeftMotorReversed = true;
+	static const bool IsRightMotorReversed = false;
 
 //Digital Ports
 	
@@ -53,8 +60,11 @@ enum {ANALOG_PORT_1 = 1,
 	static const int DIO_RightEncoderAPort = DIGITAL_PORT_8;
 	static const int DIO_RightEncoderBPort = DIGITAL_PORT_9;
 	//static const int DIO_LeftDrivetrainJaguar = DIGITAL_PORT_13;
-	//static const int DIO_RightDrivetrainJaguar = DIGITAL_PORT_14;
-
+	
+	// Let's define  orientation of both encoders...
+	static const bool IsLeftEncoderReversed = true;
+	static const bool IsRightEncoderReversed = false;
+	
 //Analog Ports
 
 	static const int ANALOG_GyroPort = ANALOG_PORT_1; //Gyro can ONLY be placed on Port 1
@@ -78,7 +88,7 @@ enum {ANALOG_PORT_1 = 1,
 	
 	//Right Joystick
 	
-	
+		
 	
 	//Operator Joystick
 	
@@ -95,9 +105,7 @@ enum {ANALOG_PORT_1 = 1,
 	static const int GripTiltDownButton = 9;
 	static const int ArmUpButton = 6;
 	static const int ArmDownButton = 4;
-	static const int CameraSwitchButton = 2;
-	
-	
+	static const int CameraSwitchButton = 2;	
 	
 //Other Useful(?) Constants
 	static const float WaitTime = .05;
