@@ -68,7 +68,7 @@ DriverMessages::PrintIt(int lineIndex, char *fmt, ...)
   va_list       args;
   va_start (args, fmt);
 
-  if(lineIndex < 0 or lineIndex > 6)
+  if ((lineIndex < 0) || (lineIndex > 6))
 	  return;
   if(lineIndex == 0){		// If printing the first line, then assume 1,2, & 3 are blanked
 	  for(int i = 0; i < 3; i++){
