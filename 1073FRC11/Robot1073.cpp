@@ -60,11 +60,14 @@ Robot1073::Robot1073(void)
 	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation);
 	minibot = new Minibot();
 	dashboardSender = new DashboardSender(driverStation,leftEncoder,rightEncoder,leftJoystick,rightJoystick, gyro);
+	dashboardReceiver = new DashboardReceiver();
 	driverMessages = new DriverMessages(leftJoystick, gyro, leftEncoder, rightEncoder);
 	cameraManager->StartCamera();
 	
 	// Launch the background thread....
 	InitializeTheZombieZone(this);
+	InitializeDashboardReceiverThread(this, dashboardReceiver);
+	
 	
 }
 
@@ -95,7 +98,6 @@ void Robot1073::ZombieZonePeriodicService()
 		dashboardSender->SendData();
 		driverMessages->PeriodicService();
 }
-
 
 START_ROBOT_CLASS(Robot1073);
 

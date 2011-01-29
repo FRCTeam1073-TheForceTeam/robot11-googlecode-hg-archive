@@ -6,6 +6,7 @@
 #include "Navigation.h"
 #include "Minibot.h"
 #include "DashboardSender.h"
+#include "DashboardReceiver.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -41,10 +42,12 @@ class Robot1073: public SimpleRobot
 		LNDrive *drive;
 		Minibot *minibot;
 		DashboardSender *dashboardSender;
+		DashboardReceiver *dashboardReceiver;
 		DriverMessages *driverMessages;
 		CameraManager *cameraManager;
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
+		void InitializeDashboardReceiverThread(Robot1073 *, DashboardReceiver *);
 		void ResetEncoders();
 		void InitEncoders();
 

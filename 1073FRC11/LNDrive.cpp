@@ -42,8 +42,12 @@ void LNDrive::PeriodicService()
 
 void LNDrive::TankDrive()
 {
+#if 1
 	left = leftJoystick->GetY();
 	right = rightJoystick->GetY();
+#else
+	left = right = leftJoystick->GetZ();
+#endif
 
 	if(fabs(left) < .1)
 	{
