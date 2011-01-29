@@ -18,7 +18,7 @@ static Robot1073 *pRobot1073;
 const float periodicIntervalSec = .05;
 
 int
-ZombieFunction()
+ZombieFunction(...)
 {
 	while (1)  // No stopping the Zombie, Life before Autonomous....
 	{
@@ -35,7 +35,7 @@ Robot1073::InitializeTheZombieZone(Robot1073 *ptr)
 {
 	printf("Encoder test Zombie Initiation ocurred\n");
 	pRobot1073 = ptr;
-	ZombieTask = new Task("ZombieFunction", (FUNCPTR)ZombieFunction );
+	ZombieTask = new Task("ZombieFunction", ZombieFunction );
 	ZombieSemaphore = semMCreate(SEM_DELETE_SAFE | SEM_INVERSION_SAFE); // synchronize access to multi-value registers
 	ZombieTask->Start();
 }
