@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////
 // Filename: DashboarReceiver.cpp
 // Author:   
-// Date:     January 23, 2011
+// Date:     January 28, 2011
 //
 // Description: This file contains class defintion for the DashBoardReceiver responible all dashboard data through 
 // UDP Port 1130...
@@ -17,15 +17,13 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-
 #define BUFLEN 512
 #define PORT 1130
-
 
 // This important static is to allow our launched receiver thread to access our main Robot class. 
 static Robot1073 *pRobot1073;
 static DashboardReceiver *pDashboardReceiver;
-const float periodicIntervalSec = .05;
+
 
 
 DashboardReceiver::DashboardReceiver()
@@ -59,7 +57,7 @@ DashboardReceiver::ReceiveData()
 		int slen=sizeof(si_other);
 		char buf[BUFLEN];
 
-	
+		memset((char *) &buf[0], 0, BUFLEN);
 		if (recvfrom(hSocket, buf, BUFLEN, 0, (struct sockaddr *)&si_other, &slen)==-1){
 	          printf("recvfrom() Error\n");
 	          return;
@@ -77,7 +75,7 @@ DashboardReceiverFunction()
 	while (1)  // Loop forever waiting for dahbboard data to arrive
 	{
 		pDashboardReceiver->ReceiveData();
-		// Eventually need to call Robot1073 with this information...
+		// Eventually need to call Robot with this information...
 	}
 }
 
