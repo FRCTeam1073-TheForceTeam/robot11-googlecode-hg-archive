@@ -3,6 +3,9 @@
 
 #include "WPILib.h"
 #include "Math.h"
+#include <list>
+#include <map>
+#include <string>
 
 enum {PWM_PORT_1 = 1,
 	  PWM_PORT_2,

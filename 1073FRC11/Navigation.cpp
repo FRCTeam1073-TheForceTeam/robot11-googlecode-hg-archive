@@ -1,9 +1,9 @@
 #include "Navigation.h"
+#include "Encoders1073.h"
 
-Navigation::Navigation(Encoder *le, Encoder *re, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
+Navigation::Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
 {
-	leftEncoder = le;
-	rightEncoder = re;
+	encoders = enc;
 	yAxisAccelerometer = yaccel;
 	gyro = g;
 	timer = t;

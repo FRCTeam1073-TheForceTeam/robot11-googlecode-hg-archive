@@ -7,6 +7,7 @@
 #include "Minibot.h"
 #include "DashboardSender.h"
 #include "DashboardReceiver.h"
+#include "Encoders1073.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -32,8 +33,8 @@ class Robot1073: public SimpleRobot
 		SpeedController *rightMotorJaguar;
 		Joystick *leftJoystick;
 		Joystick *rightJoystick;
-		Encoder *leftEncoder;
-		Encoder *rightEncoder;
+		Encoders1073 *encoders;
+		
 		Accelerometer *xAxisAccelerometer;
 		Accelerometer *yAxisAccelerometer;
 		Gyro *gyro;
@@ -48,8 +49,7 @@ class Robot1073: public SimpleRobot
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
 		void InitializeDashboardReceiverThread(Robot1073 *, DashboardReceiver *);
-		void ResetEncoders();
-		void InitEncoders();
+
 
 };
 

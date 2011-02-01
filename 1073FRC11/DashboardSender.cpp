@@ -8,13 +8,14 @@
 //
 //////////////////////////////////////////////////////////
 #include "DashboardSender.h"
+#include "Encoders1073.h"
 
 DashboardSender::DashboardSender(DriverStation *dash, 
-		Encoder *lEncoder, Encoder *rEncoder, 
+		Encoders1073 *enc, 
 		Joystick *lJ, Joystick *rJ,
 		Gyro *gyr)
 : ds(dash), 
-leftEncoder(lEncoder), rightEncoder(rEncoder), 
+encoders(enc),
 leftJoystick(lJ), rightJoystick(rJ),
 gyro(gyr)
 {
