@@ -11,5 +11,13 @@ void Robot1073::Autonomous(void)
 {
 	ResetEncoders();
 	
+	while (IsAutonomous())
+	{
+		navigation->PeriodicService();
+		lineFollower->PeriodicService();
+		Wait(WaitTime);				// wait for a motor update time
+	}
+
+	
 	
 }
