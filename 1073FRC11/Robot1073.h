@@ -37,6 +37,7 @@ class Robot1073: public SimpleRobot
 		Accelerometer *xAxisAccelerometer;
 		Accelerometer *yAxisAccelerometer;
 		Gyro *gyro;
+		Servo *servo;
 		Timer *timer;
 		Navigation *navigation;
 		LNDrive *drive;

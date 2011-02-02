@@ -39,7 +39,7 @@ class LNDrive
 		void Scale();
 		void SetMotors();
 		void UpdateTurnToAngle();
-		
+		void CheckDriveMode();
 		
 		
 		
@@ -56,6 +56,7 @@ class LNDrive
 		
 		bool overridden;
 		bool turningToAngle;
+		bool isTankDrive;
 };
 
 #endif
