@@ -24,7 +24,7 @@ public:
 	void StartCamera();
 	
 private:
-    Timer timer;
+    Timer timer;  //comment
     AxisCamera *camera;
 };
 
