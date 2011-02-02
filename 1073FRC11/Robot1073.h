@@ -8,6 +8,7 @@
 #include "DashboardSender.h"
 #include "DashboardReceiver.h"
 #include "LineFollower.h"
+#include "smartjoystick.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -31,8 +32,8 @@ class Robot1073: public SimpleRobot
 		DriverStation *driverStation;
 		SpeedController *leftMotorJaguar;
 		SpeedController *rightMotorJaguar;
-		Joystick *leftJoystick;
-		Joystick *rightJoystick;
+		SmartJoystick *leftJoystick;
+		SmartJoystick *rightJoystick;
 		Encoder *leftEncoder;
 		Encoder *rightEncoder;
 		Accelerometer *xAxisAccelerometer;

@@ -42,8 +42,8 @@ Robot1073::Robot1073(void)
 #endif
 	
 	// Should rev
-	leftJoystick = new Joystick(USB_LeftJoystickPort);
-	rightJoystick = new Joystick(USB_RightJoystickPort);
+	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
+	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
 	
 	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort, IsLeftEncoderReversed);
 	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
