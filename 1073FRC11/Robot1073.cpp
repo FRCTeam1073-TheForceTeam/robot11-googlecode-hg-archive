@@ -57,8 +57,12 @@ Robot1073::Robot1073(void)
 	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccelerometerPort);
 	timer = new Timer();
 	
+	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);
+	middleLineSensor = new DigitalInput(DIO_MiddleLightSensorPort);
+	rightLineSensor = new DigitalInput(DIO_RightLightSensorPort);
 	navigation = new Navigation(leftEncoder, rightEncoder, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
-	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation);
+	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, leftEncoder, rightEncoder);
+	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, leftEncoder, rightEncoder);
 	minibot = new Minibot();
 	dashboardSender = new DashboardSender(driverStation,leftEncoder,rightEncoder,leftJoystick,rightJoystick, gyro);
 	dashboardReceiver = new DashboardReceiver();

@@ -1,6 +1,6 @@
 #include "LNDrive.h"
 
-LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n)
+LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoder *lEnc, Encoder *rEnc)
 {
 	leftJoystick = lj;
 	rightJoystick = rj;
@@ -65,6 +65,17 @@ void LNDrive::TankDrive()
 		right = 0;
 	}
 	
+	if (leftJoystick->GetRawButton(LeftTurboButton) && rightJoystick->GetRawButton(RightTurboButton))
+	{
+		if(left != 0)
+		{
+			left /= fabs(left);
+		}
+		if (right != 0)
+		{
+			right /= fabs(right);
+		}
+	}
 	Scale();
 	SetMotors();
 }

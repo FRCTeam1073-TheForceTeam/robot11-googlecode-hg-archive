@@ -7,6 +7,7 @@
 #include "Minibot.h"
 #include "DashboardSender.h"
 #include "DashboardReceiver.h"
+#include "LineFollower.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -46,6 +47,10 @@ class Robot1073: public SimpleRobot
 		DashboardReceiver *dashboardReceiver;
 		DriverMessages *driverMessages;
 		CameraManager *cameraManager;
+		DigitalInput *leftLineSensor;
+		DigitalInput *middleLineSensor;
+		DigitalInput *rightLineSensor;
+		LineFollower *lineFollower;
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
 		void InitializeDashboardReceiverThread(Robot1073 *, DashboardReceiver *);

@@ -56,7 +56,7 @@ DashboardSender::SendData()
 	//printf("Digital Direction = %04X\n", (short)DigitalModule::GetInstance(module)->GetDIODirection());
 	for (int i = 1; i <= 10; i++) {
 			dash.AddU8((unsigned char) DigitalModule::GetInstance(module)->GetPWM(i)); // pwm's
-			printf("PWM %d %02X\n" ,i, DigitalModule::GetInstance(module)->GetPWM(i));
+			//printf("PWM %d %02X\n" ,i, DigitalModule::GetInstance(module)->GetPWM(i));
 	}
 	dash.AddFloat(4.0); //time left ...
 	dash.AddFloat(ds->GetBatteryVoltage());

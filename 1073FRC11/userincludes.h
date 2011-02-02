@@ -132,11 +132,13 @@ enum {RELAY_PORT_1 = 1,
 	
 	//Left Joystick
 	
+	static const int LeftTurboButton = 1;
 	static const int TurnToRackButton = 2;
 	
 	//Right Joystick
 	
-		
+	static const int RightTurboButton = 1;
+	static const int LineFollowButton = 2;
 	
 	//Operator Joystick
 	
