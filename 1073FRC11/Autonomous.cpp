@@ -9,7 +9,7 @@
 #include "Robot1073.h"
 void Robot1073::Autonomous(void)
 {
-	ResetEncoders();
+	encoders->ResetEncoders();
 	
 	while (IsAutonomous())
 	{

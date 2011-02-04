@@ -1,6 +1,6 @@
 #include "LineFollower.h"
 
-LineFollower::LineFollower(LNDrive *d, Joystick *ljoy, Joystick *rjoy, DigitalInput *llsensor,  DigitalInput *mlsensor, DigitalInput *rlsensor, Encoder *lEnc, Encoder *rEnc)
+LineFollower::LineFollower(LNDrive *d, Joystick *ljoy, Joystick *rjoy, DigitalInput *llsensor,  DigitalInput *mlsensor, DigitalInput *rlsensor, Encoders1073 *enc)
 {
 	drive = d;
 	leftJoystick = ljoy;
@@ -8,8 +8,7 @@ LineFollower::LineFollower(LNDrive *d, Joystick *ljoy, Joystick *rjoy, DigitalIn
 	leftLineSensor = llsensor;
 	middleLineSensor = mlsensor;
 	rightLineSensor = rlsensor;
-	leftEncoder = lEnc;
-	rightEncoder = rEnc;
+	encoders = enc;
 	done = false; 
 }
 
@@ -38,7 +37,8 @@ void LineFollower::EndInAutonomous()
 void LineFollower::FollowLine(void)
 {	
 	const float maxSpeed = 0.4;
-	if (!done && leftEncoder->GetDistance()<14.0)
+	std::pair<float, float> lrDistance = encoders->GetDistance();
+	if (!done && lrDistance.first)
 	{
 		leftIsOn = leftLineSensor->Get();
 		middleIsOn = middleLineSensor->Get();

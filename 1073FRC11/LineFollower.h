@@ -1,5 +1,6 @@
 #include "userincludes.h"
 #include "LNDrive.h"
+#include "Encoders1073.h"
 
 class LineFollower;
 
@@ -7,7 +8,7 @@ class LineFollower
 {
 	public:
 		
-		LineFollower(LNDrive *d, Joystick *ljoy, Joystick *rjoy, DigitalInput *llsensor,  DigitalInput *mlsensor, DigitalInput *rlsensor, Encoder *lEnc, Encoder *rEnc);
+		LineFollower(LNDrive *d, Joystick *ljoy, Joystick *rjoy, DigitalInput *llsensor,  DigitalInput *mlsensor, DigitalInput *rlsensor, Encoders1073 *enc);
 		void StartInAutonomous();
 		void EndInAutonomous();
 		void FollowLine();
@@ -20,8 +21,7 @@ class LineFollower
 		DigitalInput *leftLineSensor;
 		DigitalInput *middleLineSensor;
 		DigitalInput *rightLineSensor;
-		Encoder *leftEncoder;
-		Encoder *rightEncoder;
+		Encoders1073 *encoders;
 		bool inAutonomous;
 		bool done;
 		bool leftIsOn;

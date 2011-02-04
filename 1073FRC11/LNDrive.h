@@ -10,7 +10,7 @@ class LNDrive
 {
 	public:
 		
-		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoder *lEnc, Encoder *rEnc);
+		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *encoders);
 		void PeriodicService();
 		
 		void Override(float leftMotor, float rightMotor);
@@ -48,8 +48,7 @@ class LNDrive
 		SpeedController *leftMotorJaguar;
 		SpeedController *rightMotorJaguar;
 		Navigation *navigation;
-		Encoder *leftEncoder;
-		Encoder *rightEncoder;
+		Encoders1073 *encoders;
 		
 		float left;		// What is left ?????????
 		float right;	// what is right ????????

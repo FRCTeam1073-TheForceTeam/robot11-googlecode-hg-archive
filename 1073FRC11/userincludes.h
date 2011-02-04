@@ -3,6 +3,9 @@
 
 #include "WPILib.h"
 #include "Math.h"
+#include <list>
+#include <map>
+#include <string>
 
 enum {PWM_PORT_1 = 1,
 	  PWM_PORT_2,
@@ -46,7 +49,6 @@ enum {RELAY_PORT_1 = 1,
 
 
 // CAN Address Assignments
-#define USE_CAN_JAGUARS true
 
 	// Total of 6 Jaguars used/defined as follows,,,
 
