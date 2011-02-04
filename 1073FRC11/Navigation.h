@@ -8,11 +8,17 @@ class Navigation;
 class Navigation
 {
 	public:
-		Navigation(Encoder *le, Encoder *re, Accelerometer *a, Gyro *g);
+		Navigation(Encoder *le, Encoder *re, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t);
 		float GetX();
 		float GetY();
+		float GetXVel();
+		float GetYVel();
+		float GetSX();
+		float GetSY();
 		float GetHeading();
 		void PeriodicService();
+		float ToRadians(float degrees);
+		float ToDegrees(float radians);
 		
 	private:
 		
@@ -32,10 +38,13 @@ class Navigation
 		Encoder *leftEncoder;
 		Encoder *rightEncoder;
 		Gyro *gyro;
-		Accelerometer *accel;
+		Accelerometer *xAxisAccelerometer;
+		Accelerometer *yAxisAccelerometer;
+		Timer *timer;
 		
 		float x;
 		float y;
+		float velocity;
 		float heading;
 };
 

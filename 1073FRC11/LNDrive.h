@@ -10,14 +10,15 @@ class LNDrive
 {
 	public:
 		
-		LNDrive(Jaguar *lmj, Jaguar *rmj, Joystick *lj, Joystick *rj, Navigation *n);
+		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoder *lEnc, Encoder *rEnc);
 		void PeriodicService();
 		
-	private:
+		void Override(float leftMotor, float rightMotor);
+		void StopOverride();
 		
-		void TankDrive();
-		void Scale();
-		void SetMotors();
+		void StartTurnToAngle(float angle);
+		bool StatusTurnToAngle();
+		void StopTurnToAngle();
 		
 		void StartFollowLine(); 
 						// lines: leftStraight, leftFork, rightFork, rightStraight
@@ -31,16 +32,33 @@ class LNDrive
 						forked */
 		bool StatusFollowLine(); // RETURN: boolean (t/f, done/still working)
 		void StopFollowLine();
+	private:
+		
+		void TankDrive();
+		void ArcadeDrive();
+		void Scale();
+		void SetMotors();
+		void UpdateTurnToAngle();
+		void CheckDriveMode();
+		
 		
 		
 		Joystick *leftJoystick;
 		Joystick *rightJoystick;
-		Jaguar *leftMotorJaguar;
-		Jaguar *rightMotorJaguar;
+		SpeedController *leftMotorJaguar;
+		SpeedController *rightMotorJaguar;
 		Navigation *navigation;
+		Encoder *leftEncoder;
+		Encoder *rightEncoder;
 		
-		float left;
-		float right;
+		float left;		// What is left ?????????
+		float right;	// what is right ????????
+		float desiredAngle;
+		float currentAngle;
+		
+		bool overridden;
+		bool turningToAngle;
+		bool isTankDrive;
 };
 
 #endif
