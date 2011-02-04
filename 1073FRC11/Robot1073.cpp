@@ -42,8 +42,8 @@ Robot1073::Robot1073(void)
 #endif
 	
 	// Should rev
-	leftJoystick = new Joystick(USB_LeftJoystickPort);
-	rightJoystick = new Joystick(USB_RightJoystickPort);
+	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
+	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
 	
 	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort, IsLeftEncoderReversed);
 	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
@@ -52,6 +52,7 @@ Robot1073::Robot1073(void)
 	InitEncoders(); // reset and start the encoders
 	
 	gyro = new Gyro(ANALOG_GyroPort);
+	servo = new Servo(5);
 	xAxisAccelerometer = new Accelerometer(ANALOG_XAxisAccelerometerPort);
 	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccelerometerPort);
 	timer = new Timer();
@@ -76,10 +77,6 @@ Robot1073::Robot1073(void)
 	
 }
 
-void Robot1073::Autonomous(void)
-{
-	ResetEncoders();
-	
 	
 	while (IsAutonomous())
 	{
@@ -89,7 +86,6 @@ void Robot1073::Autonomous(void)
 	}
 
 	
-}
 
 void Robot1073::OperatorControl(void)
 {
@@ -97,6 +93,8 @@ void Robot1073::OperatorControl(void)
 	
 	while (IsOperatorControl())
 	{
+		float pos = leftJoystick->GetZ();
+		servo->Set(pos);
 		drive->PeriodicService();
 		navigation->PeriodicService();
 		//lineFollower->PeriodicService();

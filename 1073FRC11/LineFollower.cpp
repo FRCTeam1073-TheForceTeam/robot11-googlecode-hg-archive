@@ -72,17 +72,17 @@ void LineFollower::FollowLine(void)
 		else if (leftIsOn && middleIsOn && rightIsOn)
 		{
 			done = true;
-			//drive->Override(-0.1, -0.1);
+			//drive->Override(0.1, 0.1);
 			
 			//if (rightIsOn && leftIsOn && !middleIsOn)
 			//{
 				//fork = true;
-				//drive->Override(-0.25, -0.1);
+				//drive->Override(0.25, 0.1);
 				//printf("fork\n");
 			//}
 			//else if (!rightIsOn && !leftIsOn && !middleIsOn)
 			//{
-					//drive->Override(-0.1, -0.1);
+					//drive->Override(0.1, 0.1);
 					//printf("none\n");
 			//}
 				

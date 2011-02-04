@@ -15,10 +15,13 @@ LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joyst
 	
 	overridden = false;
 	turningToAngle = false;
+	isTankDrive = true;
 }
 
 void LNDrive::PeriodicService()
 {
+	CheckDriveMode();
+	
 	if (leftJoystick->GetRawButton(TurnToRackButton))
 	{
 		StartTurnToAngle(AngleStraightHome);
@@ -38,7 +41,10 @@ void LNDrive::PeriodicService()
 	}
 	else
 	{
-		TankDrive();
+		if(isTankDrive)
+			TankDrive();
+		else
+			ArcadeDrive();
 	}
 }
 
@@ -79,11 +85,11 @@ void LNDrive::TankDrive()
 
 void LNDrive::ArcadeDrive()
 {
-	float x = rightJoystick->GetX();
+	float x = leftJoystick->GetX();
 	float y = leftJoystick->GetY();
 	
-	left = y - x;
-	right = y + x;
+	left = y + x;
+	right = y - x;
 	
 	Scale();
 	SetMotors();
@@ -192,5 +198,18 @@ bool LNDrive::StatusFollowLine()
 
 void LNDrive::StopFollowLine()
 {
+	
+}
+void LNDrive::CheckDriveMode()
+{
+	bool isButtonTenPressed = leftJoystick->GetRawButton(10);
+	static bool wasButtonTenPressed = false;
+	
+	if(isButtonTenPressed && !wasButtonTenPressed)
+	{
+		isTankDrive = !isTankDrive;
+		printf("isTank = %d\n", isTankDrive);
+	}
+	wasButtonTenPressed = isButtonTenPressed;
 	
 }
