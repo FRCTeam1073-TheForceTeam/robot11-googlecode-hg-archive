@@ -20,16 +20,17 @@ float mod360(float lhs)
 		return lhs;
 }
 
-Encoders1073::Encoders1073(Gyro *g)
+Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 {
 	gyro = g;
-	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort, IsLeftEncoderReversed);
-	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
+	leftJag = left;
+	rightJag = right;
+	
 	InitEncoders();
 	
 	initial_rotation = last_rotation = mod360(gyro->GetAngle()); 
-	initial_left = last_left = leftEncoder->GetDistance();
-	initial_right = last_right = rightEncoder->GetDistance();
+	initial_left = last_left = leftJag->GetPosition();
+	initial_right = last_right = rightJag->GetPosition();
 
 	// Initialize all the accumulators to 0
 	net_forward = net_lateral = total_forward = total_lateral = 0;
@@ -38,24 +39,23 @@ Encoders1073::Encoders1073(Gyro *g)
 
 void Encoders1073::ResetEncoders()
 {
-	leftEncoder->Reset();
-	rightEncoder->Reset();		
+	// With the encoder on the Jaguar, not sure we can reset them		
 }
 void Encoders1073::InitEncoders()
 {
 	ResetEncoders();
-
 	// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
-	leftEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
-	rightEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
-	leftEncoder->Start();
-	rightEncoder->Start();	
+	static int encoderCodes = 1;  // for encoder was .5 * 3.1415926535 / 962
+
+	leftJag->ConfigEncoderCodesPerRev(encoderCodes);
+	rightJag->ConfigEncoderCodesPerRev(encoderCodes);
+	
 }
 
 void Encoders1073::PeriodicService()
 {
-	double left = leftEncoder->GetDistance();
-	double right = rightEncoder->GetDistance();
+	double left = leftJag->GetPosition();
+	double right = rightJag->GetPosition();
 	float rotation = mod360(gyro->GetAngle());
 	
 	// Compute the distance each wheel rotated

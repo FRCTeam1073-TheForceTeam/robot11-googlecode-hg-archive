@@ -17,8 +17,8 @@
 class Encoders1073
 {
 protected:
-	Encoder *leftEncoder;
-	Encoder *rightEncoder;
+	CANJaguar *leftJag;
+	CANJaguar *rightJag;
 	Gyro *gyro;
 	
 	double initial_left, last_left;
@@ -30,11 +30,11 @@ protected:
 	double total_forward, total_lateral;
 	
 public:
-	Encoders1073(Gyro *g);
+	Encoders1073(Gyro *g, CANJaguar *leftJag, CANJaguar *rightJag);
 	void ResetEncoders();
 	void InitEncoders();
 	void PeriodicService();
-	std::pair<double, double> GetDistance() { return pair<double, double>( leftEncoder->GetDistance(), rightEncoder->GetDistance()); }
+	std::pair<double, double> GetDistance() { return pair<double, double>( leftJag->GetPosition(), rightJag->GetPosition() );}
 	
 	// The "net" functions work like a trip odometer and will indicate how far the robot has travelled since the last Reset
 	double GetNetForwardDistance() { return net_forward; }

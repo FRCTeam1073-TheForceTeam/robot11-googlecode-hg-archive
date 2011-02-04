@@ -17,13 +17,8 @@ Robot1073::Robot1073(void)
 
 	
 // Both the PWM & CAN Jaguars are suportable with this simple comple time option...	
-#if !USE_CAN_JAGUARS
-	leftMotorJaguar = new Jaguar(PWM_LeftMotorPort);
-	rightMotorJaguar = new Jaguar(PWM_RightMotorPort);
-#else
 	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
 	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
-#endif
 	
 	// Should rev
 	leftJoystick = new Joystick(USB_LeftJoystickPort);
@@ -36,7 +31,7 @@ Robot1073::Robot1073(void)
 	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccelerometerPort);
 	timer = new Timer();
 
-	encoders = new Encoders1073(gyro);
+	encoders = new Encoders1073(gyro, leftMotorJaguar, rightMotorJaguar);
 	encoders->InitEncoders(); // reset and start the encoders
 	
 	navigation = new Navigation(encoders, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);

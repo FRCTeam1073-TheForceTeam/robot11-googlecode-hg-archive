@@ -29,8 +29,8 @@ class Robot1073: public SimpleRobot
 	private:
 		AxisCamera &camera;          // This reference syntax necessary because of the referance associated with GetInstance().
 		DriverStation *driverStation;
-		SpeedController *leftMotorJaguar;
-		SpeedController *rightMotorJaguar;
+		CANJaguar *leftMotorJaguar;
+		CANJaguar *rightMotorJaguar;
 		Joystick *leftJoystick;
 		Joystick *rightJoystick;
 		Encoders1073 *encoders;

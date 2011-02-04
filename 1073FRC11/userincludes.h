@@ -41,7 +41,6 @@ enum {ANALOG_PORT_1 = 1,
 	  ANALOG_PORT_8};
 
 // CAN Address Assignments
-#define USE_CAN_JAGUARS true
 	const unsigned int CAN_LeftMotorAddress = 2; 
 	const unsigned int CAN_RightMotorAddress = 3; 
 
