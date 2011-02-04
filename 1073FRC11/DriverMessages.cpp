@@ -1,12 +1,12 @@
 #include "drivermessages.h"
+#include "Encoders1073.h"
 
 
-DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoder *lEncoder, Encoder *rEncoder)
+DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoders1073 *enc)
 {
 	menuJoystick = jStick;
 	gyro = gyroPtr;
-	leftEncoder = lEncoder;
-	rightEncoder = rEncoder;
+	encoders = enc;
 	displayIndex = 2;
 }
 
@@ -14,7 +14,7 @@ void DriverMessages::PeriodicService()
 {
 	bool isButtonSixPressed = menuJoystick->GetRawButton(6);
 	static bool wasButtonSixPressed = false;
-	
+	std::pair<double, double> lrDistance;
 	
 	
 	float xVal = menuJoystick->GetX();
@@ -29,8 +29,14 @@ void DriverMessages::PeriodicService()
 	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
 				break;
 	case 2:     PrintIt(0, "Encoders:");
-	 			PrintIt(1, "l:%f", leftEncoder->GetDistance());
-	 			PrintIt(2, "r:%f", rightEncoder->GetDistance());
+				lrDistance = encoders->GetDistance();
+	 			PrintIt(1, "l:%f", lrDistance.first);
+	 			PrintIt(2, "r:%f", lrDistance.second);
+	 			break;
+#define MAX_CASE 3 // update this if you add another case statement
+	case 3:		PrintIt(0, "Distance:");
+				PrintIt(1, "fwd:%f", encoders->GetTotalForwardDistance());
+				PrintIt(2, "lat:%f", encoders->GetTotalLateralDistance());
 				break;
 
 	// Should not get here ever, display index not properly range checked below...
@@ -42,7 +48,7 @@ void DriverMessages::PeriodicService()
 	
 	if(isButtonSixPressed && !wasButtonSixPressed){   	// Is the button currently pressed
 		displayIndex += 1;		// Set bext display count.
-		if(displayIndex > 2){   // Increment the value until the last number in case statemen
+		if(displayIndex > MAX_CASE){   // Increment the value until the last number in case statemen
 			displayIndex = 0;	// Cycle back to the 0th index
 		}
 	}

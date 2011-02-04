@@ -13,12 +13,14 @@
  */
 
 #include "DashboardSender.h"
+#include "Encoders1073.h"
+
 DashboardSender::DashboardSender(DriverStation *dash, 
-		Encoder *lEncoder, Encoder *rEncoder, 
+		Encoders1073 *enc, 
 		Joystick *lJ, Joystick *rJ,
 		Gyro *gyr)
 : ds(dash), 
-leftEncoder(lEncoder), rightEncoder(rEncoder), 
+encoders(enc),
 leftJoystick(lJ), rightJoystick(rJ),
 gyro(gyr)
 {
@@ -65,8 +67,9 @@ DashboardSender::SendData()
 	dash.AddFloat(rightJoystick->GetX());
 	dash.AddFloat(leftJoystick->GetY());
 	dash.AddFloat(rightJoystick->GetY());
-	dash.AddFloat(leftEncoder->GetDistance());
-	dash.AddFloat(rightEncoder->GetDistance());
+	std::pair<float, float> lrDistance = encoders->GetDistance();
+	dash.AddFloat(lrDistance.first);
+	dash.AddFloat(lrDistance.second);
 #if 0
 	dash.AddFloat(2); //x accel
 	dash.AddFloat(2); //y accel

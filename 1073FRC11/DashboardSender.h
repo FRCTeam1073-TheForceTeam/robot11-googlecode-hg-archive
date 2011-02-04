@@ -13,19 +13,19 @@
 #include "userincludes.h"
 
 class DashboardSender;
+class Encoders1073;
 
 class DashboardSender
 {
 	public:
 		
-		DashboardSender(DriverStation *dash, Encoder *lEncoder, Encoder *rEncoder, Joystick *lJoystick, Joystick *rJoystick, Gyro *gyr);
+		DashboardSender(DriverStation *dash, Encoders1073 *enc, Joystick *lJoystick, Joystick *rJoystick, Gyro *gyr);
 		void SendData(void);
 		void SendConstants(void);
 
 	private:
 		DriverStation *ds;
-		Encoder *leftEncoder;
-		Encoder *rightEncoder;
+		Encoders1073 *encoders;
 		Joystick *leftJoystick;
 		Joystick *rightJoystick;
 		Gyro *gyro;
