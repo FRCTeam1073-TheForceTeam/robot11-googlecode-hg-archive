@@ -8,6 +8,7 @@
 #include "DashboardSender.h"
 #include "DashboardReceiver.h"
 #include "LineFollower.h"
+#include "Encoders1073.h"
 #include "smartjoystick.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
@@ -30,12 +31,12 @@ class Robot1073: public SimpleRobot
 	private:
 		AxisCamera &camera;          // This reference syntax necessary because of the referance associated with GetInstance().
 		DriverStation *driverStation;
-		SpeedController *leftMotorJaguar;
-		SpeedController *rightMotorJaguar;
+		CANJaguar *leftMotorJaguar;
+		CANJaguar *rightMotorJaguar;
 		SmartJoystick *leftJoystick;
 		SmartJoystick *rightJoystick;
-		Encoder *leftEncoder;
-		Encoder *rightEncoder;
+		Encoders1073 *encoders;
+		
 		Accelerometer *xAxisAccelerometer;
 		Accelerometer *yAxisAccelerometer;
 		Gyro *gyro;
@@ -55,8 +56,7 @@ class Robot1073: public SimpleRobot
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
 		void InitializeDashboardReceiverThread(Robot1073 *, DashboardReceiver *);
-		void ResetEncoders();
-		void InitEncoders();
+
 
 };
 
