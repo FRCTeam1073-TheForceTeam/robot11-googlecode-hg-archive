@@ -11,7 +11,7 @@ public:
 	:Joystick(port)				// and pass in USB port number..
 	{	}						// Nothing else to do..
 	
-	virtual double GetY()		// let's override Joystick basclass functionality  
+	virtual float GetY()		// let's override Joystick basclass functionality  
 	{									// Our SmartJoystick simply inverts the Joystick to a more
 	   return -1 * Joystick::GetY();  	// logical perspective such that forward is positive
 	}									// and pulling back is negative...
