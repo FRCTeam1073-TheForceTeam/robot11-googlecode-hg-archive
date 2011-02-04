@@ -7,6 +7,8 @@
 #include "Minibot.h"
 #include "DashboardSender.h"
 #include "DashboardReceiver.h"
+#include "LineFollower.h"
+#include "smartjoystick.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -30,13 +32,14 @@ class Robot1073: public SimpleRobot
 		DriverStation *driverStation;
 		SpeedController *leftMotorJaguar;
 		SpeedController *rightMotorJaguar;
-		Joystick *leftJoystick;
-		Joystick *rightJoystick;
+		SmartJoystick *leftJoystick;
+		SmartJoystick *rightJoystick;
 		Encoder *leftEncoder;
 		Encoder *rightEncoder;
 		Accelerometer *xAxisAccelerometer;
 		Accelerometer *yAxisAccelerometer;
 		Gyro *gyro;
+		Servo *servo;
 		Timer *timer;
 		Navigation *navigation;
 		LNDrive *drive;
@@ -45,6 +48,10 @@ class Robot1073: public SimpleRobot
 		DashboardReceiver *dashboardReceiver;
 		DriverMessages *driverMessages;
 		CameraManager *cameraManager;
+		DigitalInput *leftLineSensor;
+		DigitalInput *middleLineSensor;
+		DigitalInput *rightLineSensor;
+		LineFollower *lineFollower;
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
 		void InitializeDashboardReceiverThread(Robot1073 *, DashboardReceiver *);

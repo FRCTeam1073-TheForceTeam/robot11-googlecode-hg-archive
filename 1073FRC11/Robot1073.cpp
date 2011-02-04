@@ -42,8 +42,8 @@ Robot1073::Robot1073(void)
 #endif
 	
 	// Should rev
-	leftJoystick = new Joystick(USB_LeftJoystickPort);
-	rightJoystick = new Joystick(USB_RightJoystickPort);
+	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
+	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
 	
 	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort, IsLeftEncoderReversed);
 	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
@@ -52,12 +52,17 @@ Robot1073::Robot1073(void)
 	InitEncoders(); // reset and start the encoders
 	
 	gyro = new Gyro(ANALOG_GyroPort);
+	servo = new Servo(5);
 	xAxisAccelerometer = new Accelerometer(ANALOG_XAxisAccelerometerPort);
 	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccelerometerPort);
 	timer = new Timer();
 	
+	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);
+	middleLineSensor = new DigitalInput(DIO_MiddleLightSensorPort);
+	rightLineSensor = new DigitalInput(DIO_RightLightSensorPort);
 	navigation = new Navigation(leftEncoder, rightEncoder, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
-	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation);
+	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, leftEncoder, rightEncoder);
+	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, leftEncoder, rightEncoder);
 	minibot = new Minibot();
 	dashboardSender = new DashboardSender(driverStation,leftEncoder,rightEncoder,leftJoystick,rightJoystick, gyro);
 	dashboardReceiver = new DashboardReceiver();
@@ -71,13 +76,6 @@ Robot1073::Robot1073(void)
 	
 }
 
-void Robot1073::Autonomous(void)
-{
-	ResetEncoders();
-	
-	// Some code goes here ?  
-	// Go & follow Line ?
-}
 
 void Robot1073::OperatorControl(void)
 {
@@ -85,6 +83,8 @@ void Robot1073::OperatorControl(void)
 	
 	while (IsOperatorControl())
 	{
+		float pos = leftJoystick->GetZ();
+		servo->Set(pos);
 		drive->PeriodicService();
 		navigation->PeriodicService();
 		Wait(WaitTime);				// wait for a motor update time
