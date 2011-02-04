@@ -7,7 +7,7 @@ DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoder *lEncode
 	gyro = gyroPtr;
 	leftEncoder = lEncoder;
 	rightEncoder = rEncoder;
-	displayIndex = 0;
+	displayIndex = 2;
 }
 
 void DriverMessages::PeriodicService()

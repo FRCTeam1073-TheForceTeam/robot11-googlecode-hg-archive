@@ -44,45 +44,48 @@ void LineFollower::FollowLine(void)
 		middleIsOn = middleLineSensor->Get();
 		rightIsOn = rightLineSensor->Get();
 		
-		
+		if (!done && rightEncoder->GetDistance()>7.5 && rightEncoder->GetDistance()<8.0)
+		{
+			drive->Override(maxSpeed / 3, maxSpeed);
+		}
 		if (middleIsOn && !leftIsOn && !rightIsOn)
 		{
-			drive->Override(-maxSpeed, -maxSpeed);
+			drive->Override(maxSpeed, maxSpeed);
 		}
 		else if (leftIsOn && middleIsOn && !rightIsOn)
 		{
-			drive->Override(-maxSpeed, -maxSpeed / 2);
+			drive->Override(maxSpeed, maxSpeed / 2);
 		}
 		else if (rightIsOn && middleIsOn && !leftIsOn)
 		{
-			drive->Override(-maxSpeed / 2, -maxSpeed);
+			drive->Override(maxSpeed / 2, maxSpeed);
 		}
 		else if (leftIsOn && !middleIsOn && !rightIsOn)
 		{
-			drive->Override(-maxSpeed, -maxSpeed / 3);
+			drive->Override(maxSpeed, maxSpeed / 3);
 		}
 		else if (leftIsOn && rightIsOn && !middleIsOn)
 		{
-			drive->Override(-maxSpeed, -maxSpeed / 2);
+			drive->Override(maxSpeed, maxSpeed / 2);
 		}
 		else if (rightIsOn && !middleIsOn && !leftIsOn)
 		{
-			drive->Override(-maxSpeed / 3, -maxSpeed);
+			drive->Override(maxSpeed / 3, maxSpeed);
 		}
 		else if (leftIsOn && middleIsOn && rightIsOn)
 		{
 			done = true;
-			//drive->Override(-0.1, -0.1);
+			//drive->Override(0.1, 0.1);
 			
 			//if (rightIsOn && leftIsOn && !middleIsOn)
 			//{
 				//fork = true;
-				//drive->Override(-0.25, -0.1);
+				//drive->Override(0.25, 0.1);
 				//printf("fork\n");
 			//}
 			//else if (!rightIsOn && !leftIsOn && !middleIsOn)
 			//{
-					//drive->Override(-0.1, -0.1);
+					//drive->Override(0.1, 0.1);
 					//printf("none\n");
 			//}
 				

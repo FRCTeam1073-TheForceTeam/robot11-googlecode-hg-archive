@@ -60,6 +60,7 @@ Robot1073::Robot1073(void)
 	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);
 	middleLineSensor = new DigitalInput(DIO_MiddleLightSensorPort);
 	rightLineSensor = new DigitalInput(DIO_RightLightSensorPort);
+	
 	navigation = new Navigation(leftEncoder, rightEncoder, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
 	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, leftEncoder, rightEncoder);
 	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, leftEncoder, rightEncoder);
@@ -76,7 +77,6 @@ Robot1073::Robot1073(void)
 	
 }
 
-
 void Robot1073::OperatorControl(void)
 {
 	ResetEncoders();
@@ -87,6 +87,7 @@ void Robot1073::OperatorControl(void)
 		servo->Set(pos);
 		drive->PeriodicService();
 		navigation->PeriodicService();
+		//lineFollower->PeriodicService();
 		Wait(WaitTime);				// wait for a motor update time
 	}
 }

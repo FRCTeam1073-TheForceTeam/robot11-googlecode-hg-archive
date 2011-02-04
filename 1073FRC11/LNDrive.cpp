@@ -2,6 +2,8 @@
 
 LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoder *lEnc, Encoder *rEnc)
 {
+	
+	
 	leftJoystick = lj;
 	rightJoystick = rj;
 	leftMotorJaguar = lmj;
@@ -31,7 +33,7 @@ void LNDrive::PeriodicService()
 	
 	if (overridden)
 	{
-		//Do nothing
+		
 	}
 	else if (turningToAngle)
 	{
@@ -76,6 +78,7 @@ void LNDrive::TankDrive()
 			right /= fabs(right);
 		}
 	}
+	
 	Scale();
 	SetMotors();
 }
@@ -171,12 +174,11 @@ void LNDrive::Override(float leftMotor, float rightMotor)
 {
 	overridden = true;
 	
-	left = leftMotor;
-	right = rightMotor;
+	left = -leftMotor;
+	right = -rightMotor;
 	
 	Scale();
 	SetMotors();
-	
 }
 
 void LNDrive::StopOverride()
