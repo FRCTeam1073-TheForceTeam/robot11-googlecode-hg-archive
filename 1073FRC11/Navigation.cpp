@@ -31,23 +31,14 @@ float Navigation::GetHeading()
 
 void Navigation::PeriodicService()
 {
-	static float lastTime = 0;
-	static float currentTime;
+	float _x = xAxisAccelerometer->GetAcceleration();
+	float _y = yAxisAccelerometer->GetAcceleration();
+	float ang = gyro->GetAngle();
 	
-	currentTime = timer->Get();
-	//float acceleration = yAxisAccelerometer->GetAcceleration();
-	
-	heading = gyro->GetAngle();
-	heading -= 360 * ((int)(heading / 360));
-	
-	//velocity += acceleration * (currentTime - lastTime);
-	
-	//x += velocity * (float)cos(ToRadians(heading));
-	//y += velocity * (float)sin(ToRadians(heading));
-	
-	
-	
-	lastTime = currentTime;
+	float yaccel=_y*cos(ang)-_x*sin(ang);
+	float xaccel=_x*cos(ang)+_y*sin(ang);
+	xvel+=xaccel*WaitTime;
+	yvel+=yaccel*WaitTime;
 }
 
 float Navigation::ToRadians(float degrees)
