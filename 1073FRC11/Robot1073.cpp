@@ -77,16 +77,6 @@ Robot1073::Robot1073(void)
 	
 }
 
-	
-	while (IsAutonomous())
-	{
-		navigation->PeriodicService();
-		lineFollower->PeriodicService();
-		Wait(WaitTime);				// wait for a motor update time
-	}
-
-	
-
 void Robot1073::OperatorControl(void)
 {
 	ResetEncoders();
