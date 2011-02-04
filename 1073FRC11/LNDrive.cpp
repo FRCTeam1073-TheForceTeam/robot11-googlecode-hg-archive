@@ -1,6 +1,6 @@
 #include "LNDrive.h"
 
-LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoder *lEnc, Encoder *rEnc)
+LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *enc)
 {
 	leftJoystick = lj;
 	rightJoystick = rj;

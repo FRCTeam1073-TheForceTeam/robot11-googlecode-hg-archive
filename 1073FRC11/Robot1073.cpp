@@ -20,6 +20,10 @@ Robot1073::Robot1073(void)
 	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
 	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
 	
+// I think we need to turn the Jags on to enable the encoders
+	leftMotorJaguar->EnableControl(10.0);
+	rightMotorJaguar->EnableControl(10.0);
+	
 	// Should rev
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
 	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
@@ -40,8 +44,8 @@ Robot1073::Robot1073(void)
 	encoders->InitEncoders(); // reset and start the encoders
 	
 	navigation = new Navigation(encoders, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
-	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, leftEncoder, rightEncoder);
-	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, leftEncoder, rightEncoder);
+	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, encoders);
+	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, encoders);
 	minibot = new Minibot();
 	dashboardSender = new DashboardSender(driverStation,encoders,leftJoystick,rightJoystick, gyro);
 	dashboardReceiver = new DashboardReceiver();
@@ -58,12 +62,20 @@ Robot1073::Robot1073(void)
 
 void Robot1073::OperatorControl(void)
 {
+	float last_servo_pos = 0;
 	encoders->ResetEncoders();
 	
 	while (IsOperatorControl())
 	{
+		// If the joystick is different than the last time, update
+		// the servo position
 		float pos = leftJoystick->GetZ();
-		servo->Set(pos);
+		if (pos != last_servo_pos)
+		{
+			servo->Set(pos);
+			last_servo_pos = pos;
+		}
+		
 		drive->PeriodicService();
 		navigation->PeriodicService();
 		Wait(WaitTime);				// wait for a motor update time

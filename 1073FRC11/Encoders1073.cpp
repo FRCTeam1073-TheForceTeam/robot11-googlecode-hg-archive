@@ -45,7 +45,7 @@ void Encoders1073::InitEncoders()
 {
 	ResetEncoders();
 	// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
-	static int encoderCodes = 1;  // for encoder was .5 * 3.1415926535 / 962
+	static int encoderCodes = 962;  // for encoder was .5 * 3.1415926535 / 962
 
 	leftJag->ConfigEncoderCodesPerRev(encoderCodes);
 	rightJag->ConfigEncoderCodesPerRev(encoderCodes);

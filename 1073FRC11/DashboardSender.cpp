@@ -67,8 +67,9 @@ DashboardSender::SendData()
 	dash.AddFloat(rightJoystick->GetX());
 	dash.AddFloat(leftJoystick->GetY());
 	dash.AddFloat(rightJoystick->GetY());
-	dash.AddFloat(leftEncoder->GetDistance());
-	dash.AddFloat(rightEncoder->GetDistance());
+	std::pair<float, float> lrDistance = encoders->GetDistance();
+	dash.AddFloat(lrDistance.first);
+	dash.AddFloat(lrDistance.second);
 #if 0
 	dash.AddFloat(2); //x accel
 	dash.AddFloat(2); //y accel

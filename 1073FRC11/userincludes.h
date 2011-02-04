@@ -114,8 +114,8 @@ enum {RELAY_PORT_1 = 1,
 	
 	// Let's define  orientation  motors & encoders...
 	// Motor orientation for BOTH CAN and PWM Jaguars
-	static const bool IsLeftMotorReversed = false;
-	static const bool IsRightMotorReversed = true;
+	static const bool IsLeftMotorReversed = true;
+	static const bool IsRightMotorReversed = false;
 
 	static const bool IsLeftEncoderReversed = true;
 	static const bool IsRightEncoderReversed = false;
