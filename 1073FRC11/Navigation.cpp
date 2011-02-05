@@ -1,9 +1,9 @@
 #include "Navigation.h"
-#include "Encoders1073.h"
 
-Navigation::Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
+Navigation::Navigation(Encoder *le, Encoder *re, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
 {
-	encoders = enc;
+	leftEncoder = le;
+	rightEncoder = re;
 	yAxisAccelerometer = yaccel;
 	gyro = g;
 	timer = t;
@@ -11,6 +11,8 @@ Navigation::Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *
 	//temporary (will be set properly in StartPositionRobotToColumn) 
 	x = 0;
 	y = 0;
+	xvel=0;
+	yvel=0;
 	heading = 0;
 	velocity = 0;
 }
@@ -31,14 +33,30 @@ float Navigation::GetHeading()
 
 void Navigation::PeriodicService()
 {
-	//float _x = xAxisAccelerometer->GetAcceleration();
-	//float _y = yAxisAccelerometer->GetAcceleration();
-	//float ang = gyro->GetAngle();
+	float ang = ToRadians(gyro->GetAngle());
+#if 0
+	float _y = yAxisAccelerometer->GetAcceleration();
+	float _x= xAxisAccelerometer->GetAcceleration();
 	
-	//float yaccel=_y*cos(ang)-_x*sin(ang);
-	//float xaccel=_x*cos(ang)+_y*sin(ang);
-	//xvel+=xaccel*WaitTime;
-	//yvel+=yaccel*WaitTime;
+	
+	float yaccel=_y*sin(ang)-_x*cos(ang);
+	float xaccel=_x*sin(ang)+_y*cos(ang);
+	xvel+=xaccel*WaitTime;
+	yvel+=yaccel*WaitTime;
+#else
+	//this is the encoder rotating stuff
+	//COMMENTED OUT TEMPORARILY
+	//"GetVelocity" is not stated yet
+	//float lvel = leftEncoder->GetVelocity();
+	//float rvel = rightEncoder->GetVelocity();
+	float avgvel=(rvel+lvel)/2;
+	float xvel = avgvel*sin(ang);
+	float yvel = avgvel*cos(ang);
+#endif
+	
+	
+	x+=xvel*WaitTime;
+	y+=yvel*WaitTime;
 }
 
 float Navigation::ToRadians(float degrees)
