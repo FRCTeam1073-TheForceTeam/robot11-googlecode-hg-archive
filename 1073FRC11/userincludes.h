@@ -53,9 +53,9 @@ enum {RELAY_PORT_1 = 1,
 	// Total of 6 Jaguars used/defined as follows,,,
 
 	// Two Jaguars for Left & Right Drive motors
-	const unsigned int CAN_LeftMotorAddress = 2;
+	const unsigned int CAN_LeftMotorAddress = 3;
 	// JAGIO --> Left Encoder connected to Left Motor Jaguar..
-	const unsigned int CAN_RightMotorAddress = 3;
+	const unsigned int CAN_RightMotorAddress = 2;
 	// JAGIO --> Right Encoder connected to Left Motor Jaguar..
 
 	// Two Jaguars driving 2 separate Elevator motors
@@ -84,8 +84,9 @@ enum {RELAY_PORT_1 = 1,
 	static const int DIO_LeftLightSensorPort = 	 DIGITAL_PORT_1;
 	static const int DIO_MiddleLightSensorPort = DIGITAL_PORT_2;
 	static const int DIO_RightLightSensorPort =  DIGITAL_PORT_3;
-	static const int DIO_XAxisAccelerometerPort = DIGITAL_PORT_11; //Fix Later
-	static const int DIO_YAxisAccelerometerPort = DIGITAL_PORT_12; //Fix Later
+	
+//I2C Slot
+	static const int IO_Slot = 4;
 	
 // Relay inputs for 3 spikes 
 	static const int RELAY_MinibotDeployer = 	RELAY_PORT_1;	// Spike 1 -> For/Rev/Off
@@ -116,8 +117,8 @@ enum {RELAY_PORT_1 = 1,
 	
 	// Let's define  orientation  motors & encoders...
 	// Motor orientation for BOTH CAN and PWM Jaguars
-	static const bool IsLeftMotorReversed = true;
-	static const bool IsRightMotorReversed = false;
+	static const bool IsLeftMotorReversed = false;
+	static const bool IsRightMotorReversed = true;
 
 	static const bool IsLeftEncoderReversed = true;
 	static const bool IsRightEncoderReversed = false;

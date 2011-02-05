@@ -30,7 +30,7 @@ Robot1073::Robot1073(void)
 	
 	gyro = new Gyro(ANALOG_GyroPort);
 	servo = new Servo(5);
-	accelerometer = new ADXL345_I2C(DIO_XAxisAccelerometerPort);
+	accelerometer = new ADXL345_I2C(SensorBase::GetDefaultDigitalModule());
 	timer = new Timer();
 
 	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);
@@ -60,7 +60,7 @@ void Robot1073::OperatorControl(void)
 	float last_servo_pos = 0;
 	encoders->ResetEncoders();
 	
-	while (IsOperatorControl() && IsEnabled() )
+	while (IsOperatorControl() && IsEnabled())
 	{
 		// If the joystick is different than the last time, update
 		// the servo position
