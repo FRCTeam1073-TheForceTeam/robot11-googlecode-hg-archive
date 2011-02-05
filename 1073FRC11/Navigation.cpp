@@ -1,9 +1,9 @@
 #include "Navigation.h"
 
-Navigation::Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
+Navigation::Navigation(Encoders1073 *enc, ADXL345_I2C *accel, Gyro *g, Timer *t)
 {
 	encoders = enc;
-	yAxisAccelerometer = yaccel;
+	accelerometer = accel;
 	gyro = g;
 	timer = t;
 	
@@ -49,10 +49,10 @@ void Navigation::PeriodicService()
 	
 	currentTime = timer->Get();
 	
-	//float yAcceleration = yAxisAccelerometer->GetAcceleration() * 32; // 1 g = 32 ft/s^2
-	//float xAcceleration = xAxisAccelerometer->GetAcceleration() * 32;
+	float yAcceleration = accelerometer->GetAcceleration(ADXL345_I2C::kAxis_X) * 32; // 1 g = 32 ft/s^2
+	float xAcceleration = accelerometer->GetAcceleration(ADXL345_I2C::kAxis_Y) * 32;
 	
-	/*
+	
 
 	xVelocity += xAcceleration * (currentTime - lastTime);
 	heading += ((xVelocity - lastXVelocity) / (2 * xAcceleration)) / .5208333 / Pi * 180;
@@ -61,7 +61,7 @@ void Navigation::PeriodicService()
 	{
 		heading = gyro->GetAngle();
 	}
-	*/
+	
 	
 	heading = gyro->GetAngle();
 	heading -= 360 * ((int)(heading / 360));
@@ -71,12 +71,11 @@ void Navigation::PeriodicService()
 		heading = 360 + heading;
 	}
 	
-	//yVelocity += yAcceleration * (currentTime - lastTime);
-	//float distanceTravelled = ((yVelocity - lastYVelocity) / (2 * yAcceleration)
-	//						  +  encoders->GetNetForwardDistance()) / 2;
+	yVelocity += yAcceleration * (currentTime - lastTime);
+	float distanceTravelled = (yVelocity - lastYVelocity) / (2 * yAcceleration);
 	
-	//x += distanceTravelled * (float)cos(ToRadians(heading + Pi / 2));
-	//y += distanceTravelled * (float)sin(ToRadians(heading + Pi / 2));
+	x += distanceTravelled * (float)cos(ToRadians(heading + Pi / 2));
+	y += distanceTravelled * (float)sin(ToRadians(heading + Pi / 2));
 	
 	lastTime = currentTime;
 	lastXVelocity = xVelocity;

@@ -79,22 +79,23 @@ enum {RELAY_PORT_1 = 1,
 	static const int PWM_ElevatorBrakeServo = PWM_PORT_6; 	 // Servo used to stop the elevator movement
 
 
-//Digital I/O Ports (3 total)
+//Digital I/O Ports (5 total)
 	static const int DIO_LeftLightSensorPort = 	 DIGITAL_PORT_1;
 	static const int DIO_MiddleLightSensorPort = DIGITAL_PORT_2;
 	static const int DIO_RightLightSensorPort =  DIGITAL_PORT_3;
-
+	static const int DIO_XAxisAccelerometerPort = DIGITAL_PORT_11; //Fix Later
+	static const int DIO_YAxisAccelerometerPort = DIGITAL_PORT_12; //Fix Later
+	
 // Relay inputs for 3 spikes 
 	static const int RELAY_MinibotDeployer = 	RELAY_PORT_1;	// Spike 1 -> For/Rev/Off
-	static const int RELAY_PincerRoller = 	  RELAY_PORT_2;		// Spike 2 -> For/Rev/Off
-	static const int RELAY_RetroIlluminator = RELAY_PORT_3;	// Spike 3 -> For/Off = light On/off
+	static const int RELAY_MinibotPositioner = RELAY_PORT_2;	
+	static const int RELAY_PincerRoller = 	  RELAY_PORT_3;		// Spike 3 -> For/Rev/Off
+	static const int RELAY_RetroIlluminator = RELAY_PORT_4;	// Spike 4 -> For/Off = light On/off
 	
 //varius Analog Port defines (5 total)
 	static const int ANALOG_GyroPort = ANALOG_PORT_1; //Gyro can ONLY be placed on Port 1
-	static const int ANALOG_XAxisAccelerometerPort = ANALOG_PORT_2;
-	static const int ANALOG_YAxisAccelerometerPort = ANALOG_PORT_3;
-	static const int ANALOG_PincerMagneticEncoder = ANALOG_PORT_4;
-	static const int ANALOG_ElevatorArmMagneticEncoder = ANALOG_PORT_5;
+	static const int ANALOG_PincerMagneticEncoder = ANALOG_PORT_2;
+	static const int ANALOG_ElevatorArmMagneticEncoder = ANALOG_PORT_3;
 	
 
 	
@@ -133,6 +134,7 @@ enum {RELAY_PORT_1 = 1,
 	
 	static const int LeftTurboButton = 1;
 	static const int TurnToRackButton = 2;
+	static const int SwitchDriveModeButton = 10;
 	
 	//Right Joystick
 

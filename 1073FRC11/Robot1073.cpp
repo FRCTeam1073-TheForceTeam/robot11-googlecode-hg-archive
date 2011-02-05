@@ -32,8 +32,7 @@ Robot1073::Robot1073(void)
 	
 	gyro = new Gyro(ANALOG_GyroPort);
 	servo = new Servo(5);
-	xAxisAccelerometer = new Accelerometer(ANALOG_XAxisAccelerometerPort);
-	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccelerometerPort);
+	accelerometer = new ADXL345_I2C(DIO_XAxisAccelerometerPort);
 	timer = new Timer();
 
 	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);
@@ -43,7 +42,7 @@ Robot1073::Robot1073(void)
 	encoders = new Encoders1073(gyro, leftMotorJaguar, rightMotorJaguar);
 	encoders->InitEncoders(); // reset and start the encoders
 	
-	navigation = new Navigation(encoders, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
+	navigation = new Navigation(encoders, accelerometer, gyro, timer);
 	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, encoders);
 	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, encoders);
 	minibot = new Minibot();

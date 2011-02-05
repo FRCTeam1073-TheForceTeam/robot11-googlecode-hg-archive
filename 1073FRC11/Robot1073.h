@@ -37,8 +37,7 @@ class Robot1073: public SimpleRobot
 		SmartJoystick *rightJoystick;
 		Encoders1073 *encoders;
 		
-		Accelerometer *xAxisAccelerometer;
-		Accelerometer *yAxisAccelerometer;
+		ADXL345_I2C *accelerometer;
 		Gyro *gyro;
 		Servo *servo;
 		Timer *timer;

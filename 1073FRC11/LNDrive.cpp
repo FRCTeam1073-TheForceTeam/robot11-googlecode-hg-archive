@@ -200,7 +200,7 @@ void LNDrive::StopOverride()
 
 void LNDrive::CheckDriveMode()
 {
-	bool isButtonTenPressed = leftJoystick->GetRawButton(10);
+	bool isButtonTenPressed = leftJoystick->GetRawButton(SwitchDriveModeButton);
 	static bool wasButtonTenPressed = false;
 	
 	if(isButtonTenPressed && !wasButtonTenPressed)
