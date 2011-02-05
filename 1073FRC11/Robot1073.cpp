@@ -19,10 +19,8 @@ Robot1073::Robot1073(void)
 // Both the PWM & CAN Jaguars are suportable with this simple comple time option...	
 	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
 	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
-	
-// I think we need to turn the Jags on to enable the encoders
-	leftMotorJaguar->EnableControl(10.0);
-	rightMotorJaguar->EnableControl(10.0);
+	pincerJaguar = new CANJaguar(CAN_PincerMotorAddress);
+	armJaguar = new CANJaguar(CAN_ElevatorArmMotorAddress);
 	
 	// Should rev
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
@@ -40,7 +38,6 @@ Robot1073::Robot1073(void)
 	rightLineSensor = new DigitalInput(DIO_RightLightSensorPort);
 	
 	encoders = new Encoders1073(gyro, leftMotorJaguar, rightMotorJaguar);
-	encoders->InitEncoders(); // reset and start the encoders
 	
 	navigation = new Navigation(encoders, accelerometer, gyro, timer);
 	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, encoders);
@@ -63,7 +60,7 @@ void Robot1073::OperatorControl(void)
 	float last_servo_pos = 0;
 	encoders->ResetEncoders();
 	
-	while (IsOperatorControl())
+	while (IsOperatorControl() && IsEnabled() )
 	{
 		// If the joystick is different than the last time, update
 		// the servo position

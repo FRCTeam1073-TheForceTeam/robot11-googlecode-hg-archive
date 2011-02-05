@@ -59,17 +59,18 @@ enum {RELAY_PORT_1 = 1,
 	// JAGIO --> Right Encoder connected to Left Motor Jaguar..
 
 	// Two Jaguars driving 2 separate Elevator motors
-	const unsigned int CAN_ElevatorUpDownA = 4; 
-	const unsigned int CAN_ElevatorUpDownB = 5;
+	const unsigned int CAN_ElevatorUpDownAMotorAddress = 4; 
+	const unsigned int CAN_ElevatorUpDownBMotorAddress = 5;
 	// JAGIO --> Elevator 'Down'limit Switch connected to BOTH Elevator A & B limits in series
 	// JAGIOIO --> Elevator Optical Encoder connected to JaguarUpDownA Encoder Input
 	
-	// Another Jaguar for Pincer
-	const unsigned int CAN_Pincer = 6;
+	// More Jaguars for Pincer
+	const unsigned int CAN_PincerMotorAddress = 6;
+	
 	// Analog -> Pincer Mag encoder defined below in Analog input section
 	
 	//Another Jaguar for Arm rotate.
-	const unsigned int CAN_ElevatorArm = 7;
+	const unsigned int CAN_ElevatorArmMotorAddress = 7;
 	// JAGIO --> Down limit switch for Elevator Arm to jaguar limit switch
 	// ElevatorArm Mag encoder defined below in Analog input seaction
 	
@@ -160,10 +161,12 @@ enum {RELAY_PORT_1 = 1,
 	
 //Other Useful(?) Constants
 	static const float WaitTime = .05;
-	static const float Pi = 3.14159; 
-	static const float WheelCircumference = .5 * Pi;
-	static const float PulsesPerFoot = 962; //Inexact, talk to mechanical later
+	static const float Pi = 3.14159;
+	static const float WheelCircumferenceFeet = (6.25/12 * Pi);  // 6.25 inches
+	static const float PulsesPerFoot = 660; // exact
 	static const float AngleStraightHome = 0;
 	static const float AngleStraightAway = 180;
+	
+
 
 #endif

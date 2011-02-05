@@ -33,6 +33,8 @@ class Robot1073: public SimpleRobot
 		DriverStation *driverStation;
 		CANJaguar *leftMotorJaguar;
 		CANJaguar *rightMotorJaguar;
+		CANJaguar *pincerJaguar;
+		CANJaguar *armJaguar;
 		SmartJoystick *leftJoystick;
 		SmartJoystick *rightJoystick;
 		Encoders1073 *encoders;
