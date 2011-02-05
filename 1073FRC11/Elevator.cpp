@@ -35,11 +35,13 @@ bool
 Elevator::IsAtTargetPosition()
 {
 	float current = GetCurrentPositionFeet();
-	
-	if((fabs(current - targetposition) < leewayfeet))
-		return true;
+	float dis = (fabs(current - targetposition));
+	if(dis < leewayfeet){
+	printf("Distance: &f\n",dis);
+		return true;}
 	else
 		return false;
+}
 }
 void
 Elevator::SetBrake(bool brake)
