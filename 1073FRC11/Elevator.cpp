@@ -1,14 +1,16 @@
 #include <stdio.h>
-
 #include "WPILib.h"
 #include "Elevator.h"
 #include "math.h"
+
+//find actual values for brake on, brake off, and maxspeed
 
 const float leewayfeet = ((1/12)/2.54); //error range for elevator height
 const float Kp = 1.0;
 const float maxSpeed = .5;
 const float servoBrakeOn = -1;
 const float servoBrakeOff = 1.0;
+const float startingPoint = 1; //change later to height to base of elevator
 
 Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1)
 {
@@ -27,7 +29,7 @@ Elevator::GoToPositionFeet(float ft)
 float
 Elevator::GetTargetPositionFeet()
 {
-	return targetposition;
+	return (targetposition - startingPoint);
 }
 bool
 Elevator::IsAtTargetPosition()
@@ -61,7 +63,7 @@ Elevator::PeriodicService()
 	{
 		if(motorA->GetReverseLimitOK())
 		{
-			motorA->Set(-maxSpeed/2);
+			motorA->Set(-maxSpeed/2); //both move down at half speed, can change to accomodate for others
 			motorB->Set(-maxSpeed/2);
 			return;
 		}
