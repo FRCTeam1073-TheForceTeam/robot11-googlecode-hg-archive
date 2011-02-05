@@ -12,6 +12,7 @@
 #define BIND 2
 
 typedef unsigned char uchar;
+typedef unsigned int uint;
 
 #if 0
 float* RetroDetector::Discrepancy(
@@ -40,25 +41,25 @@ float* RetroDetector::Discrepancy(
 	return discreps;
 }
 #else
-float* RetroDetector::Discrepancy(
+uint* RetroDetector::Discrepancy(
 			uchar*i0, 
 			uchar*i1,
 			Change R, Change G, Change B,
-			float &max,float &min
+			uint &max,uint &min
 			)
 {
 	int size = sizeof(i0)/(sizeof(uchar) * PIXELSIZE);
 	
-	float discreps[size]; // the array of float values representing discrepancies
-	max = -99999; // keep track of largest and smallest values
+	uint discreps[size]; // the array of float values representing discrepancies
+	max = 0; // keep track of largest and smallest values
 	min = 99999;
 	for(int i = 0,ind=0; i < size; i++,ind += PIXELSIZE)
 	{
-		float dR = discrep(i0[ind+RIND],i1[ind+RIND],R,3);
-		float dG = discrep(i0[ind+GIND],i1[ind+GIND],G,3);
-		float dB = discrep(i0[ind+BIND],i1[ind+BIND],B,3);
+		uint dR = discrep(i0[ind+RIND],i1[ind+RIND],R);
+		uint dG = discrep(i0[ind+GIND],i1[ind+GIND],G);
+		uint dB = discrep(i0[ind+BIND],i1[ind+BIND],B);
 		
-		float res = dR*dG*dB;
+		uint res = dR*dG*dB+1;
 		discreps[i] = res;
 		if(res > max){max = res;}
 		if(res < min){min = res;}
@@ -82,11 +83,11 @@ Point* RetroDetector::Tapes(
 	int &tapes
 	)
 {
-	float max;
-	float min;
-	float* discreps = Discrepancy(i0,i1,chR,chG,chB,max,min);
+	uint max;
+	uint min;
+	uint* discreps = Discrepancy(i0,i1,chR,chG,chB,max,min);
 	
-	float thresh = THRESHLEVEL * (max - min) + min;
+	uint thresh = (uint)(THRESHLEVEL * (max - min) + min);
 	
 	tapes = 0;
 	Point res[99];
@@ -135,21 +136,22 @@ Point* RetroDetector::Tapes(
 	return res;
 }
 
-float RetroDetector::discrep(uchar _0,uchar _1,Change c, uchar k)
+#define KK 3
+uint RetroDetector::discrep(uchar _0,uchar _1,Change c)
 {
 #if 0
 	float _a = MAX - _0;
 	float _b = MAX - _1;
 #else
-	float _a = ((float)(MAX-_0))/MAX;
-	float _b = ((float)(MAX-_1))/MAX;
+	uint _a = (MAX-(uint)_0)*(MAX-(uint)_0);
+	uint _b = (MAX-(uint)_1)*(MAX-(uint)_1);
 #endif
 	switch (c)
 	{
-		case HH: return MAX / (_a*_b+k); break;
-	    case HL: return (_b + k) / (_a + k); break;
-	    case LH: return (_a + k) / (_b + k); break;
-	    case LL: return _a * _b; break;
+		case HH: return (65536 * KK) / (_a*_b+KK); break;
+	    case HL: return ((_b + KK)*KK) / (_a + KK); break;
+	    case LH: return ((_a + KK)*KK) / (_b + KK); break;
+	    case LL: return (_a/MAX) * (_b/MAX); break;
 	    case Undef: return 1; break;
 	}
 	return 0;

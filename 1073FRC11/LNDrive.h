@@ -10,7 +10,7 @@ class LNDrive
 {
 	public:
 		
-		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n);
+		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *encoders);
 		void PeriodicService();
 		
 		void Override(float leftMotor, float rightMotor);
@@ -39,7 +39,7 @@ class LNDrive
 		void Scale();
 		void SetMotors();
 		void UpdateTurnToAngle();
-		
+		void CheckDriveMode();
 		
 		
 		
@@ -48,6 +48,7 @@ class LNDrive
 		SpeedController *leftMotorJaguar;
 		SpeedController *rightMotorJaguar;
 		Navigation *navigation;
+		Encoders1073 *encoders;
 		
 		float left;		// What is left ?????????
 		float right;	// what is right ????????
@@ -56,6 +57,7 @@ class LNDrive
 		
 		bool overridden;
 		bool turningToAngle;
+		bool isTankDrive;
 };
 
 #endif

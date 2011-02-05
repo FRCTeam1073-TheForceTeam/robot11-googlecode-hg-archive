@@ -1,4 +1,5 @@
 typedef unsigned char uchar;
+typedef unsigned int uint;
 
 enum Change
 {
@@ -28,11 +29,11 @@ public:
 			float &max, float &min
 			);
 #else
-	float* Discrepancy(
+	uint* Discrepancy(
 				unsigned char*i0,
 				unsigned char*i1,
 				Change R, Change G, Change B,
-				float &max, float &min
+				uint &max, uint &min
 				);
 #endif
 	
@@ -42,6 +43,6 @@ public:
 	int &tapes
 	);
 private:
-	float discrep(uchar _0, uchar _1, Change c, uchar k);
+	uint discrep(uchar _0, uchar _1, Change c);
 	
 };

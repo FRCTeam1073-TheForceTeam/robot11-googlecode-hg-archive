@@ -1,7 +1,9 @@
 #include "LNDrive.h"
 
-LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n)
+LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *enc)
 {
+	
+	
 	leftJoystick = lj;
 	rightJoystick = rj;
 	leftMotorJaguar = lmj;
@@ -13,10 +15,13 @@ LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joyst
 	
 	overridden = false;
 	turningToAngle = false;
+	isTankDrive = true;
 }
 
 void LNDrive::PeriodicService()
 {
+	CheckDriveMode();
+	
 	if (leftJoystick->GetRawButton(TurnToRackButton))
 	{
 		StartTurnToAngle(AngleStraightHome);
@@ -28,7 +33,7 @@ void LNDrive::PeriodicService()
 	
 	if (overridden)
 	{
-		//Do nothing
+		
 	}
 	else if (turningToAngle)
 	{
@@ -36,14 +41,21 @@ void LNDrive::PeriodicService()
 	}
 	else
 	{
-		TankDrive();
+		if(isTankDrive)
+			TankDrive();
+		else
+			ArcadeDrive();
 	}
 }
 
 void LNDrive::TankDrive()
 {
+#if 1
 	left = leftJoystick->GetY();
 	right = rightJoystick->GetY();
+#else
+	left = right = leftJoystick->GetZ();
+#endif
 
 	if(fabs(left) < .1)
 	{
@@ -55,17 +67,29 @@ void LNDrive::TankDrive()
 		right = 0;
 	}
 	
+	if (leftJoystick->GetRawButton(LeftTurboButton) && rightJoystick->GetRawButton(RightTurboButton))
+	{
+		if(left != 0)
+		{
+			left /= fabs(left);
+		}
+		if (right != 0)
+		{
+			right /= fabs(right);
+		}
+	}
+	
 	Scale();
 	SetMotors();
 }
 
 void LNDrive::ArcadeDrive()
 {
-	float x = rightJoystick->GetX();
+	float x = leftJoystick->GetX();
 	float y = leftJoystick->GetY();
 	
-	left = y - x;
-	right = y + x;
+	left = y + x;
+	right = y - x;
 	
 	Scale();
 	SetMotors();
@@ -151,12 +175,11 @@ void LNDrive::Override(float leftMotor, float rightMotor)
 {
 	overridden = true;
 	
-	left = leftMotor;
-	right = rightMotor;
+	left = -leftMotor;
+	right = -rightMotor;
 	
 	Scale();
 	SetMotors();
-	
 }
 
 void LNDrive::StopOverride()
@@ -176,5 +199,18 @@ bool LNDrive::StatusFollowLine()
 
 void LNDrive::StopFollowLine()
 {
+	
+}
+void LNDrive::CheckDriveMode()
+{
+	bool isButtonTenPressed = leftJoystick->GetRawButton(10);
+	static bool wasButtonTenPressed = false;
+	
+	if(isButtonTenPressed && !wasButtonTenPressed)
+	{
+		isTankDrive = !isTankDrive;
+		printf("isTank = %d\n", isTankDrive);
+	}
+	wasButtonTenPressed = isButtonTenPressed;
 	
 }

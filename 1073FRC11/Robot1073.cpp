@@ -8,22 +8,6 @@
 //////////////////////////////////////////////////////////
 #include "Robot1073.h"
 
-void Robot1073::ResetEncoders()
-{
-	leftEncoder->Reset();
-	rightEncoder->Reset();		
-}
-void Robot1073::InitEncoders()
-{
-	ResetEncoders();
-
-	// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
-	leftEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
-	rightEncoder->SetDistancePerPulse(.5 * 3.1415926535 / 962);
-	leftEncoder->Start();
-	rightEncoder->Start();	
-}
-
 Robot1073::Robot1073(void)
 : camera (AxisCamera::GetInstance())					// This initialization syntax necessary because of the referance associated with GetInstance().
 
@@ -33,57 +17,67 @@ Robot1073::Robot1073(void)
 
 	
 // Both the PWM & CAN Jaguars are suportable with this simple comple time option...	
-#if !USE_CAN_JAGUARS
-	leftMotorJaguar = new Jaguar(PWM_LeftMotorPort);
-	rightMotorJaguar = new Jaguar(PWM_RightMotorPort);
-#else
 	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
 	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
-#endif
+	
+// I think we need to turn the Jags on to enable the encoders
+	leftMotorJaguar->EnableControl(10.0);
+	rightMotorJaguar->EnableControl(10.0);
 	
 	// Should rev
-	leftJoystick = new Joystick(USB_LeftJoystickPort);
-	rightJoystick = new Joystick(USB_RightJoystickPort);
-	
-	leftEncoder = new Encoder(DIO_LeftEncoderAPort, DIO_LeftEncoderBPort, IsLeftEncoderReversed);
-	rightEncoder = new Encoder(DIO_RightEncoderAPort, DIO_RightEncoderBPort, IsRightEncoderReversed);
+	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
+	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
 	
 	
-	InitEncoders(); // reset and start the encoders
 	
 	gyro = new Gyro(ANALOG_GyroPort);
+	servo = new Servo(5);
 	xAxisAccelerometer = new Accelerometer(ANALOG_XAxisAccelerometerPort);
 	yAxisAccelerometer = new Accelerometer(ANALOG_YAxisAccelerometerPort);
 	timer = new Timer();
+
+	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);
+	middleLineSensor = new DigitalInput(DIO_MiddleLightSensorPort);
+	rightLineSensor = new DigitalInput(DIO_RightLightSensorPort);
 	
-	navigation = new Navigation(leftEncoder, rightEncoder, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
-	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation);
+	encoders = new Encoders1073(gyro, leftMotorJaguar, rightMotorJaguar);
+	encoders->InitEncoders(); // reset and start the encoders
+	
+	navigation = new Navigation(encoders, xAxisAccelerometer, yAxisAccelerometer, gyro, timer);
+	drive = new LNDrive(leftMotorJaguar, rightMotorJaguar, leftJoystick, rightJoystick, navigation, encoders);
+	lineFollower = new LineFollower(drive, leftJoystick, rightJoystick, leftLineSensor, middleLineSensor, rightLineSensor, encoders);
 	minibot = new Minibot();
-	dashboardSender = new DashboardSender(driverStation,leftEncoder,rightEncoder,leftJoystick,rightJoystick, gyro);
-	driverMessages = new DriverMessages(leftJoystick, gyro, leftEncoder, rightEncoder);
+	dashboardSender = new DashboardSender(driverStation,encoders,leftJoystick,rightJoystick, gyro);
+	dashboardReceiver = new DashboardReceiver();
+	driverMessages = new DriverMessages(leftJoystick, gyro, encoders);
 	cameraManager->StartCamera();
 	
 	// Launch the background thread....
 	InitializeTheZombieZone(this);
+	InitializeDashboardReceiverThread(this, dashboardReceiver);
 	
-}
-
-void Robot1073::Autonomous(void)
-{
-	ResetEncoders();
 	
-	// Some code goes here ?  
-	// Go & follow Line ?
 }
 
 void Robot1073::OperatorControl(void)
 {
-	ResetEncoders();
+	float last_servo_pos = 0;
+	encoders->ResetEncoders();
 	
 	while (IsOperatorControl())
 	{
+		// If the joystick is different than the last time, update
+		// the servo position
+		float pos = leftJoystick->GetZ();
+		if (pos != last_servo_pos)
+		{
+			servo->Set(pos);
+			last_servo_pos = pos;
+		}
+		
 		drive->PeriodicService();
 		navigation->PeriodicService();
+		//lineFollower->PeriodicService();
 		Wait(WaitTime);				// wait for a motor update time
 	}
 }
@@ -94,12 +88,7 @@ void Robot1073::ZombieZonePeriodicService()
 {
 		dashboardSender->SendData();
 		driverMessages->PeriodicService();
+		encoders->PeriodicService();
 }
 
-
 START_ROBOT_CLASS(Robot1073);
-
-
-
-
-
