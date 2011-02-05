@@ -39,7 +39,11 @@ Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 
 void Encoders1073::ResetEncoders()
 {
-	// With the encoder on the Jaguar, not sure we can reset them		
+		leftJag->Disable();
+		rightJag->Disable();
+		
+		leftJag->EnableControl(0.0);
+		rightJag->EnableControl(0.0);			
 }
 void Encoders1073::InitEncoders()
 {

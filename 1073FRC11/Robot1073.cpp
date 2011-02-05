@@ -20,10 +20,6 @@ Robot1073::Robot1073(void)
 	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
 	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
 	
-// I think we need to turn the Jags on to enable the encoders
-	leftMotorJaguar->EnableControl(10.0);
-	rightMotorJaguar->EnableControl(10.0);
-	
 	// Should rev
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
 	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
