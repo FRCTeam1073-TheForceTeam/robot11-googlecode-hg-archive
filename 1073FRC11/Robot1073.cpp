@@ -59,7 +59,7 @@ void Robot1073::OperatorControl(void)
 	float last_servo_pos = 0;
 	encoders->ResetEncoders();
 	
-	while (IsOperatorControl())
+	while (IsOperatorControl() && IsEnabled() )
 	{
 		// If the joystick is different than the last time, update
 		// the servo position

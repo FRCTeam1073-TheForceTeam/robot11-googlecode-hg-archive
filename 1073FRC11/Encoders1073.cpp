@@ -11,6 +11,9 @@
 #include "Encoders1073.h"
 
 static const double PI = 2*acos(0.0);
+// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
+static int encoderCodes = 600; // found through experimentation
+
 	
 float mod360(float lhs) 
 {
@@ -20,8 +23,28 @@ float mod360(float lhs)
 		return lhs;
 }
 
+void ResetOne(CANJaguar *jag)
+{
+	CANJaguar::ControlMode oldMode = jag->GetControlMode();
+	jag->ChangeControlMode(CANJaguar::kPosition);
+	jag->DisableControl();
+	jag->EnableControl(0.0);
+	jag->ChangeControlMode(oldMode);
+}
+
+void InitOne(CANJaguar *jag)
+{
+	jag->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+	
+	jag->ConfigEncoderCodesPerRev(encoderCodes);
+	
+	ResetOne(jag);
+}
+
 Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 {
+	printf("Encoders1073 ctor scale %d\n", encoderCodes);	
+	
 	gyro = g;
 	leftJag = left;
 	rightJag = right;
@@ -37,29 +60,16 @@ Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 	
 }
 
+
 void Encoders1073::ResetEncoders()
-{
-		printf("Mr.C CANJag encoder ResetEncoders - take 2\n");
-		
-		leftJag->EnableControl(0.0);
-		rightJag->EnableControl(0.0);			
+{		
+		ResetOne(leftJag);
+		ResetOne(rightJag);
 }
 void Encoders1073::InitEncoders()
 {
-	
-	leftJag->SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-	rightJag->SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-	
-	leftJag->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-	rightJag->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-	
-	// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
-	static int encoderCodes = 1;  // for encoder was .5 * 3.1415926535 / 962
-
-	leftJag->ConfigEncoderCodesPerRev(encoderCodes);
-	rightJag->ConfigEncoderCodesPerRev(encoderCodes);
-
-	ResetEncoders();
+	InitOne(leftJag);
+	InitOne(rightJag);
 }
 
 void Encoders1073::PeriodicService()
