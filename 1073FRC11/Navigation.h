@@ -3,13 +3,13 @@
 
 #include "userincludes.h"
 
+
 class Navigation;
-class Encoders1073;
 
 class Navigation
 {
 	public:
-		Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t);
+		Navigation(Encoder *le, Encoder *re, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t);
 		float GetX();
 		float GetY();
 		float GetXVel();
@@ -36,7 +36,8 @@ class Navigation
 		/// down/right are both positive. units are in feet.
 		
 		
-		Encoders1073 *encoders;
+		Encoder *leftEncoder;
+		Encoder *rightEncoder;
 		Gyro *gyro;
 		Accelerometer *xAxisAccelerometer;
 		Accelerometer *yAxisAccelerometer;
@@ -44,8 +45,12 @@ class Navigation
 		
 		float x;
 		float y;
+		float xvel;
+		float yvel;
 		float velocity;
 		float heading;
+		//set x and y coordinate
+		//aquire position
 };
 
 #endif
