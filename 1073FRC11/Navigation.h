@@ -12,8 +12,8 @@ class Navigation
 		Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t);
 		float GetX();
 		float GetY();
-		float GetXVel();
-		float GetYVel();
+		float GetXVelocity();
+		float GetYVelocity();
 		float GetSX();
 		float GetSY();
 		float GetHeading();

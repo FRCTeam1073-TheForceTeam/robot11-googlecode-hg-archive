@@ -2,11 +2,12 @@
 #include "Encoders1073.h"
 
 
-DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoders1073 *enc)
+DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoders1073 *enc, Navigation *nav)
 {
 	menuJoystick = jStick;
 	gyro = gyroPtr;
 	encoders = enc;
+	navigation = nav;
 	displayIndex = 2;
 }
 
@@ -27,6 +28,7 @@ void DriverMessages::PeriodicService()
 				PrintIt(1, "X%6.3f Y%6.3f",xVal, yVal);
 				break;
 	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
+				PrintIt(1, "Heading=%3.5f", navigation->GetHeading());
 				break;
 	case 2:     PrintIt(0, "Encoders:");
 				lrDistance = encoders->GetDistance();

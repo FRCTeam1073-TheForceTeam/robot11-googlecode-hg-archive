@@ -49,7 +49,7 @@ Robot1073::Robot1073(void)
 	minibot = new Minibot();
 	dashboardSender = new DashboardSender(driverStation,encoders,leftJoystick,rightJoystick, gyro);
 	dashboardReceiver = new DashboardReceiver();
-	driverMessages = new DriverMessages(leftJoystick, gyro, encoders);
+	driverMessages = new DriverMessages(leftJoystick, gyro, encoders, navigation);
 	cameraManager->StartCamera();
 	
 	// Launch the background thread....

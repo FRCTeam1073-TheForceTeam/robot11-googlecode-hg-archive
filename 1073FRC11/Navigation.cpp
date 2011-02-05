@@ -1,9 +1,8 @@
 #include "Navigation.h"
 
-Navigation::Navigation(Encoder *le, Encoder *re, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
+Navigation::Navigation(Encoders1073 *enc, Accelerometer *xaccel, Accelerometer *yaccel, Gyro *g, Timer *t)
 {
-	leftEncoder = le;
-	rightEncoder = re;
+	encoders = enc;
 	yAxisAccelerometer = yaccel;
 	gyro = g;
 	timer = t;
@@ -30,35 +29,36 @@ float Navigation::GetHeading()
 	return heading;
 }
 
+float Navigation::GetXVelocity()
+{
+	return xVelocity;
+}
+
+float Navigation::GetYVelocity()
+{
+	return yVelocity;
+}
+
 void Navigation::PeriodicService()
 {
 	static float lastTime = 0;
 	static float currentTime;
 	
-	static float lastLeftEncoderReading = 0;
-	static float currentLeftEncoderReading = 0;
-	
-	static float lastRightEncoderReading = 0;
-	static float currentRightEncoderReading = 0;
-	
+	static float lastXVelocity = 0;
 	static float lastYVelocity = 0;
 	
 	currentTime = timer->Get();
-	currentLeftEncoderReading = leftEncoder->GetDistance();
-	currentRightEncoderReading = rightEncoder->GetDistance();
 	
 	//float yAcceleration = yAxisAccelerometer->GetAcceleration() * 32; // 1 g = 32 ft/s^2
 	//float xAcceleration = xAxisAccelerometer->GetAcceleration() * 32;
 	
 	/*
-	if(fabs(xAcceleration) < .10)
+
+	xVelocity += xAcceleration * (currentTime - lastTime);
+	heading += ((xVelocity - lastXVelocity) / (2 * xAcceleration)) / .5208333 / Pi * 180;
+
+	if (fabs(xVelocity) <= .2)
 	{
-		xVelocity += xAcceleration * (currentTime - lastTime);
-		heading += xVelocity * (currentTime - lastTime);
-	}
-	else
-	{
-		xVelocity = 0;
 		heading = gyro->GetAngle();
 	}
 	*/
@@ -72,14 +72,14 @@ void Navigation::PeriodicService()
 	}
 	
 	//yVelocity += yAcceleration * (currentTime - lastTime);
-	//float distanceTravelled = (yVelocity - lastYVelocity) / (2 * yAcceleration)
+	//float distanceTravelled = ((yVelocity - lastYVelocity) / (2 * yAcceleration)
+	//						  +  encoders->GetNetForwardDistance()) / 2;
 	
-	//x += distanceTravelled * (float)cos(ToRadians(heading));
-	//y += distanceTravelled * (float)sin(ToRadians(heading));
+	//x += distanceTravelled * (float)cos(ToRadians(heading + Pi / 2));
+	//y += distanceTravelled * (float)sin(ToRadians(heading + Pi / 2));
 	
 	lastTime = currentTime;
-	lastLeftEncoderReading = currentLeftEncoderReading;
-	lastRightEncoderReading = currentRightEncoderReading;
+	lastXVelocity = xVelocity;
 	lastYVelocity = yVelocity;
 }
 

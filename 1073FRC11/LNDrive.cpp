@@ -2,12 +2,11 @@
 
 LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *enc)
 {
-	
-	
 	leftJoystick = lj;
 	rightJoystick = rj;
 	leftMotorJaguar = lmj;
 	rightMotorJaguar = rmj;
+	
 	navigation = n;
 	
 	left = 0;
@@ -33,7 +32,7 @@ void LNDrive::PeriodicService()
 	
 	if (overridden)
 	{
-		
+		//Left blank deliberately, someone else is in control
 	}
 	else if (turningToAngle)
 	{
@@ -42,9 +41,13 @@ void LNDrive::PeriodicService()
 	else
 	{
 		if(isTankDrive)
+		{
 			TankDrive();
+		}
 		else
+		{
 			ArcadeDrive();
+		}
 	}
 }
 
@@ -150,22 +153,30 @@ void LNDrive::UpdateTurnToAngle()
 	
 	float angleDif = desiredAngle - currentAngle;
 	
-	if(fabs(angleDif) < 2)
+	if(fabs(angleDif) < 5)
 	{
 		left = 0;
 		right = 0;
 	}
+
 	else if (angleDif > 0 && angleDif > 180 ||
-			 angleDif < 0 && angleDif < 180)
+			 angleDif < 0 && -angleDif < 180)
 	{
 		left = angleDif / 180;
-		right = -angleDif / 180;
+		right = -left;
 	}
 	else
 	{
-		left = -angleDif / 180;
 		right = angleDif / 180;
+		left = -right;
 	}
+	
+	if (fabs(angleDif) < 30 && navigation->GetXVelocity() > .5)
+	{
+		left *= -1;
+		right *= -1;
+	}
+	
 	
 	Scale();
 	SetMotors();
@@ -187,20 +198,6 @@ void LNDrive::StopOverride()
 	overridden = false;
 }
 
-void LNDrive::StartFollowLine()
-{
-	
-}
-
-bool LNDrive::StatusFollowLine()
-{
-	return false;
-}
-
-void LNDrive::StopFollowLine()
-{
-	
-}
 void LNDrive::CheckDriveMode()
 {
 	bool isButtonTenPressed = leftJoystick->GetRawButton(10);
