@@ -19,14 +19,15 @@ class Elevator
 {
 	
 public:
-	Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1);
+	Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1, Joystick *e);
 	
 	void GoToPositionFeet(float ft);
+	void GoToPositionIndex(int index);  // Go to positions 1 through 6
 	float GetCurrentPositionFeet();
 	bool IsAtTargetPosition();
 	float GetTargetPositionFeet();
+	void CheckJoystick();
 	void PeriodicService();
-	
 	
 	
 private:
@@ -36,6 +37,7 @@ private:
     CANJaguar *motorA;
     CANJaguar *motorB;
     Servo *servo;
+    Joystick *joystick;
     bool isHoming;
 };
 

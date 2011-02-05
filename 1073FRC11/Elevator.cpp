@@ -10,14 +10,16 @@ const float Kp = 1.0;
 const float maxSpeed = .5;
 const float servoBrakeOn = -1;
 const float servoBrakeOff = 1.0;
-const float startingPoint = 1; //change later to height to base of elevator
+const float startingPoint = 1; //change later to the height of the base of the robot
+float heights[] = { .5, 1.0, 1.5, 2.0, 2.5, 3.0 };
 
-Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1)
+Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1, Joystick *e)
 {
 	motorA = ma;
 	motorB = mb;
 	servo = s1;
 	targetposition = 5.0;
+	joystick = e;
 }
 
 
@@ -61,8 +63,31 @@ Elevator::GetCurrentPositionFeet() //returns the current elevator position
 	return curposition;
 }
 void
+Elevator::GoToPositionIndex(int index)
+{
+	GoToPositionFeet(heights[index-1]);
+}
+void
+Elevator::CheckJoystick()
+{
+		bool isButtonTenPressed = joystick->GetRawButton(12);
+		static bool wasButtonTenPressed = false;
+		int c = 0;
+		
+		if(isButtonTenPressed && !wasButtonTenPressed)
+		{
+			GoToPositionFeet(heights[c]);
+			c++;
+			if(c >= 5)
+				c = 0;
+		}
+		wasButtonTenPressed = isButtonTenPressed;
+}
+void
 Elevator::PeriodicService()
 {
+	CheckJoystick();
+	
 	if(isHoming)
 	{
 		if(motorA->GetReverseLimitOK())
