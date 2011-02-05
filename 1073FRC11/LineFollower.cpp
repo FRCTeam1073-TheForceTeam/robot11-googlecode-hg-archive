@@ -74,7 +74,7 @@ void LineFollower::FollowLine(void)
 		}
 		else if (leftIsOn && middleIsOn && rightIsOn)
 		{
-			done = true;
+			drive->Override(maxSpeed / 2, maxSpeed / 2);
 			//drive->Override(0.1, 0.1);
 			
 			//if (rightIsOn && leftIsOn && !middleIsOn)

@@ -19,6 +19,8 @@ Robot1073::Robot1073(void)
 // Both the PWM & CAN Jaguars are suportable with this simple comple time option...	
 	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
 	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
+	pincerJaguar = new CANJaguar(CAN_PincerMotorAddress);
+	armJaguar = new CANJaguar(CAN_ElevatorArmMotorAddress);
 	
 	// Should rev
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
