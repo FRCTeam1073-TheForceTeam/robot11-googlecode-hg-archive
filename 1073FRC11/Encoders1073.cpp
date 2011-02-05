@@ -23,22 +23,24 @@ float mod360(float lhs)
 		return lhs;
 }
 
-void ResetOne(CANJaguar *jag)
+void ResetOne(CANJaguar *jag, double *pInit_val)
 {
 	CANJaguar::ControlMode oldMode = jag->GetControlMode();
 	jag->ChangeControlMode(CANJaguar::kPosition);
 	jag->DisableControl();
 	jag->EnableControl(0.0);
 	jag->ChangeControlMode(oldMode);
+	
+	*pInit_val = jag->GetPosition();
 }
 
-void InitOne(CANJaguar *jag)
+void InitOne(CANJaguar *jag, double *pInit_val)
 {
 	jag->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
 	
 	jag->ConfigEncoderCodesPerRev(encoderCodes);
 	
-	ResetOne(jag);
+	ResetOne(jag, pInit_val);
 }
 
 Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
@@ -52,8 +54,7 @@ Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 	InitEncoders();
 	
 	initial_rotation = last_rotation = mod360(gyro->GetAngle()); 
-	initial_left = last_left = leftJag->GetPosition();
-	initial_right = last_right = rightJag->GetPosition();
+
 
 	// Initialize all the accumulators to 0
 	net_forward = net_lateral = total_forward = total_lateral = 0;
@@ -63,13 +64,14 @@ Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 
 void Encoders1073::ResetEncoders()
 {		
-		ResetOne(leftJag);
-		ResetOne(rightJag);
+	ResetOne(leftJag, &initial_left);
+	ResetOne(rightJag, &initial_right);
 }
+
 void Encoders1073::InitEncoders()
 {
-	InitOne(leftJag);
-	InitOne(rightJag);
+	InitOne(leftJag, &initial_left);
+	InitOne(rightJag, &initial_right);
 }
 
 void Encoders1073::PeriodicService()
