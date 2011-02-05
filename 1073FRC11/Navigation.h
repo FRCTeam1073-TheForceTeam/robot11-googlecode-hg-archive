@@ -3,6 +3,7 @@
 
 #include "userincludes.h"
 
+
 class Navigation;
 class Encoders1073;
 
@@ -44,8 +45,12 @@ class Navigation
 		
 		float x;
 		float y;
+		float xvel;
+		float yvel;
 		float velocity;
 		float heading;
+		//set x and y coordinate
+		//aquire position
 };
 
 #endif

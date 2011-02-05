@@ -4,7 +4,9 @@
 #include "userincludes.h"
 #include "Navigation.h"
 
+
 class LNDrive;
+class Encoders1073;
 
 class LNDrive
 {
