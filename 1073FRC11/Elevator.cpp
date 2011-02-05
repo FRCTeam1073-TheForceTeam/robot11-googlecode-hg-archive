@@ -22,27 +22,31 @@ Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1)
 
 
 void
-Elevator::GoToPositionFeet(float ft) //sets the position for the elevator to go to
+Elevator::GoToPositionFeet(float ft) // sets the target position
 {
 	targetposition = ft;
 }
 float
-Elevator::GetTargetPositionFeet() //gets the actual target position, accounting for the robot height - thee elevator
+Elevator::GetTargetPositionFeet() //modifies and returns target position to account for height - base
 {
 	return (targetposition - startingPoint);
 }
 bool
-Elevator::IsAtTargetPosition() //checks if the elevator is at the target position
+Elevator::IsAtTargetPosition() // checks to see if the elevator is at the target position, returns true if it is
 {
 	float current = GetCurrentPositionFeet();
+	float dis = (fabs(current - targetposition));
 	
-	if((fabs(current - targetposition) < leewayfeet))
+	if(dis < leewayfeet)
+	{
+		//printf("Distance: &f\n",dis); //weird warning, fix later
 		return true;
+	}
 	else
 		return false;
 }
 void
-Elevator::SetBrake(bool brake) //brake controls - on & off, self explanitory
+Elevator::SetBrake(bool brake) // sets the brake on if true and off otherwise, self explanitory
 {
 	if(brake)
 		servo->Set(servoBrakeOn);
@@ -50,7 +54,7 @@ Elevator::SetBrake(bool brake) //brake controls - on & off, self explanitory
 		servo->Set(servoBrakeOff);
 }
 float
-Elevator::GetCurrentPositionFeet() // gets the current position of the robot
+Elevator::GetCurrentPositionFeet() //returns the current elevator position
 {
 	float curposition = motorA->GetPosition();
 	
@@ -61,13 +65,13 @@ Elevator::PeriodicService()
 {
 	if(isHoming)
 	{
-		if(motorA->GetReverseLimitOK()) //if the limit switch hasn't been hit
+		if(motorA->GetReverseLimitOK())
 		{
-			motorA->Set(-maxSpeed/2); //both move down at half speed, can change to make sure it's not too fast
+			motorA->Set(-maxSpeed/2); //both move down at half speed, can change to accomodate for others
 			motorB->Set(-maxSpeed/2);
 			return;
 		}
-		isHoming = false; //resets all values, stops motors
+		isHoming = false;
 		motorA->Set(0);
 		motorB->Set(0);
 		
@@ -81,12 +85,12 @@ Elevator::PeriodicService()
 	
 	float output = err*Kp;
 	
-	if(IsAtTargetPosition()) //sets the brake if at target position
+	if(IsAtTargetPosition()) //brakes if at the target position
 		SetBrake(true);
 	else
 		SetBrake(false);
 	
-	if(output > maxSpeed) //makes sure that the elevator does not exceed the max speed
+	if(output > maxSpeed) //makes sure the elevator doesn't exceed a set max speed
 		output = maxSpeed;
 	if(output < -maxSpeed)
 		output = -maxSpeed;

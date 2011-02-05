@@ -44,7 +44,7 @@ void LineFollower::FollowLine(void)
 		middleIsOn = middleLineSensor->Get();
 		rightIsOn = rightLineSensor->Get();
 		
-		if (!done && lrDistance.second >7.5 && lrDistance.second <8.0)
+		if (!done && encoders->GetNetForwardDistance() > 7.5 && encoders->GetNetForwardDistance() < 8.0)
 		{
 			drive->Override(maxSpeed / 3, maxSpeed);
 		}

@@ -161,10 +161,12 @@ enum {RELAY_PORT_1 = 1,
 	
 //Other Useful(?) Constants
 	static const float WaitTime = .05;
-	static const float Pi = 3.14159; 
-	static const float WheelCircumference = .5 * Pi;
-	static const float PulsesPerFoot = 962; //Inexact, talk to mechanical later
+	static const float Pi = 3.14159;
+	static const float WheelCircumferenceFeet = (6.25/12 * Pi);  // 6.25 inches
+	static const float PulsesPerFoot = 2640.18952; // exact
 	static const float AngleStraightHome = 0;
 	static const float AngleStraightAway = 180;
+	
+
 
 #endif
