@@ -70,18 +70,18 @@ Elevator::GoToPositionIndex(int index)
 void
 Elevator::CheckJoystick()
 {
-		bool isButtonTenPressed = joystick->GetRawButton(12);
-		static bool wasButtonTenPressed = false;
+		bool isButtonTwelvePressed = joystick->GetRawButton(12);
+		static bool wasButtonTwelvePressed = false;
 		int c = 0;
 		
-		if(isButtonTenPressed && !wasButtonTenPressed)
+		if(isButtonTwelvePressed && !wasButtonTwelvePressed)
 		{
 			GoToPositionFeet(heights[c]);
 			c++;
 			if(c >= 5)
 				c = 0;
 		}
-		wasButtonTenPressed = isButtonTenPressed;
+		wasButtonTwelvePressed = isButtonTwelvePressed;
 }
 void
 Elevator::PeriodicService()
