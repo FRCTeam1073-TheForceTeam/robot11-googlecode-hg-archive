@@ -22,29 +22,31 @@ Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1)
 
 
 void
-Elevator::GoToPositionFeet(float ft)
+Elevator::GoToPositionFeet(float ft) // sets the target position
 {
 	targetposition = ft;
 }
 float
-Elevator::GetTargetPositionFeet()
+Elevator::GetTargetPositionFeet() //modifies and returns target position to account for height - base
 {
 	return (targetposition - startingPoint);
 }
 bool
-Elevator::IsAtTargetPosition()
+Elevator::IsAtTargetPosition() // checks to see if the elevator is at the target position, returns true if it is
 {
 	float current = GetCurrentPositionFeet();
 	float dis = (fabs(current - targetposition));
-	if(dis < leewayfeet){
-	printf("Distance: &f\n",dis);
-		return true;}
+	
+	if(dis < leewayfeet)
+	{
+		//printf("Distance: &f\n",dis); //weird warning, fix later
+		return true;
+	}
 	else
 		return false;
 }
-}
 void
-Elevator::SetBrake(bool brake)
+Elevator::SetBrake(bool brake) // sets the brake on if true and off otherwise, self explanitory
 {
 	if(brake)
 		servo->Set(servoBrakeOn);
@@ -52,7 +54,7 @@ Elevator::SetBrake(bool brake)
 		servo->Set(servoBrakeOff);
 }
 float
-Elevator::GetCurrentPositionFeet()
+Elevator::GetCurrentPositionFeet() //returns the current elevator position
 {
 	float curposition = motorA->GetPosition();
 	
@@ -83,12 +85,12 @@ Elevator::PeriodicService()
 	
 	float output = err*Kp;
 	
-	if(IsAtTargetPosition())
+	if(IsAtTargetPosition()) //brakes if at the target position
 		SetBrake(true);
 	else
 		SetBrake(false);
 	
-	if(output > maxSpeed)
+	if(output > maxSpeed) //makes sure the elevator doesn't exceed a set max speed
 		output = maxSpeed;
 	if(output < -maxSpeed)
 		output = -maxSpeed;
