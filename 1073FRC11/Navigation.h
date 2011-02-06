@@ -5,11 +5,12 @@
 
 class Navigation;
 class Encoders1073;
+class SmartGyro;
 
 class Navigation
 {
 	public:
-		Navigation(Encoders1073 *enc, ADXL345_I2C *accel, Gyro *g, Timer *t);
+		Navigation(Encoders1073 *enc, ADXL345_I2C *accel, SmartGyro *g, Timer *t);
 		float GetX();
 		float GetY();
 		float GetXVelocity();
@@ -37,7 +38,7 @@ class Navigation
 		
 		
 		Encoders1073 *encoders;
-		Gyro *gyro;
+		SmartGyro *gyro;
 		ADXL345_I2C *accelerometer;
 		Timer *timer;
 		

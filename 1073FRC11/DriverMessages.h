@@ -11,6 +11,8 @@
 
 #include "userincludes.h"
 #include "Navigation.h"
+#include "SmartGyro.h"
+#include "SmartJoystick.h"
 
 
 class DriverMessages;
@@ -19,7 +21,7 @@ class Encoders1073;
 class DriverMessages
 {
 	public:
-		DriverMessages(Joystick *joystick, Gyro *gyroPtr, Encoders1073 *encoders, Navigation *nav);
+		DriverMessages(SmartJoystick *joystick, SmartGyro *gyroPtr, Encoders1073 *encoders, Navigation *nav);
 		void PeriodicService();
 		
 		
@@ -28,8 +30,8 @@ class DriverMessages
 		
 	private:
 		int displayIndex;
-		Joystick *menuJoystick;
-		Gyro *gyro;
+		SmartJoystick *menuJoystick;
+		SmartGyro *gyro;
 		Encoders1073 *encoders;
 		Navigation *navigation;
 		char lineText[10][81];	// Let's reserve space for 4 lines of 81 characters each

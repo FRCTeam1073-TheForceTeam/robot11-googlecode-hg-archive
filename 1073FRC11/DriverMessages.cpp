@@ -2,7 +2,7 @@
 #include "Encoders1073.h"
 
 
-DriverMessages::DriverMessages(Joystick *jStick, Gyro *gyroPtr, Encoders1073 *enc, Navigation *nav)
+DriverMessages::DriverMessages(SmartJoystick *jStick, SmartGyro *gyroPtr, Encoders1073 *enc, Navigation *nav)
 {
 	menuJoystick = jStick;
 	gyro = gyroPtr;
@@ -16,24 +16,29 @@ void DriverMessages::PeriodicService()
 	bool isButtonSixPressed = menuJoystick->GetRawButton(6);
 	static bool wasButtonSixPressed = false;
 	std::pair<double, double> lrDistance;
+	std::pair<double, double> lrUnaltered;
 	
 	
 	float xVal = menuJoystick->GetX();
 	float yVal = menuJoystick->GetY();
 	
+	float rawX = menuJoystick->GetXUnaltered();
+	float rawY = menuJoystick->GetYUnaltered();
 	
 	switch(displayIndex){
 	
 	case 0:		PrintIt(0, "Joystick Test");
-				PrintIt(1, "X%6.3f Y%6.3f",xVal, yVal);
+				PrintIt(1, "X=%6.3f (%6.3f), ",xVal, rawX);
+				PrintIt(2, "Y=%6.3f (%6.3f)", yVal, rawY);
 				break;
 	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
 				PrintIt(1, "Heading=%3.5f", navigation->GetHeading());
 				break;
 	case 2:     PrintIt(0, "Encoders:");
 				lrDistance = encoders->GetDistance();
-	 			PrintIt(1, "l:%f", lrDistance.first);
-	 			PrintIt(2, "r:%f", lrDistance.second);
+				lrUnaltered = encoders->GetDistanceUnaltered();
+	 			PrintIt(1, "l:%f (%f)", lrDistance.first, lrUnaltered.first);
+	 			PrintIt(2, "r:%f (%f)", lrDistance.second, lrUnaltered.second);
 	 			break;
 #define MAX_CASE 3 // update this if you add another case statement
 	case 3:		PrintIt(0, "Distance:");

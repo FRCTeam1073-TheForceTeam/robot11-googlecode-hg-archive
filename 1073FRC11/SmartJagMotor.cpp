@@ -42,9 +42,11 @@ SmartJaguarMotorEncoder::ResetEncoder()
 void
 SmartJaguarMotorEncoder::Set(float value)
 {
+	float new_value = value;
 	if(isMotorReversed)	//If motor is reversed, reverse setting
-		value *= -1.0;	
-	CANJaguar::Set(value);
+		new_value *= -1.0;
+	
+	CANJaguar::Set(new_value);
 }
 
 double SmartJaguarMotorEncoder::GetPosition()

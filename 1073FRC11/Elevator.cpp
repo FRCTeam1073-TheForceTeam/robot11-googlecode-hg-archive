@@ -2,6 +2,8 @@
 #include "WPILib.h"
 #include "userincludes.h"
 #include "Elevator.h"
+#include "SmartJoystick.h"
+#include "SmartJagMotor.h"
 #include "math.h"
 
 //find actual values for brake on, brake off, and maxspeed
@@ -14,7 +16,7 @@ static const float servoBrakeOff = 1.0;
 static const float startingPoint = 1; //change later to the height of the base of the robot
 static float heights[] = { .5, 1.0, 1.5, 2.0, 2.5, 3.0 };
 
-Elevator::Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, Joystick *e)
+Elevator::Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, SmartJoystick *e)
 {
 	motorA = ma;
 	motorB = mb;
@@ -89,6 +91,10 @@ Elevator::CheckJoystick()
 void
 Elevator::PeriodicService()
 {
+	// For now, add a test for NULL for our motors. Until they are connected to to the bot,
+	// we can't do anything
+	if ((motorA == NULL) || (motorB == NULL)) return;
+	
 	CheckJoystick();
 	
 	if(isHoming)

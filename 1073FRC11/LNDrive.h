@@ -2,6 +2,8 @@
 #define LNDRIVE_H_
 
 #include "userincludes.h"
+#include "SmartJoystick.h"
+#include "SmartJagMotor.h"
 #include "Navigation.h"
 
 
@@ -12,7 +14,7 @@ class LNDrive
 {
 	public:
 		
-		LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *encoders);
+		LNDrive(SmartJaguarMotorEncoder *lmj, SmartJaguarMotorEncoder *rmj, SmartJoystick *lj, SmartJoystick *rj, Navigation *n, Encoders1073 *encoders);
 		void PeriodicService();
 		
 		void Override(float leftMotor, float rightMotor);
@@ -33,10 +35,10 @@ class LNDrive
 		
 		
 		
-		Joystick *leftJoystick;
-		Joystick *rightJoystick;
-		SpeedController *leftMotorJaguar;
-		SpeedController *rightMotorJaguar;
+		SmartJoystick *leftJoystick;
+		SmartJoystick *rightJoystick;
+		SmartJaguarMotorEncoder *leftMotorJaguar;
+		SmartJaguarMotorEncoder *rightMotorJaguar;
 		Navigation *navigation;
 		Encoders1073 *encoders;
 		

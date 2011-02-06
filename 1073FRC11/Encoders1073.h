@@ -25,7 +25,6 @@ protected:
 
 	SmartGyro *gyro;
 	
-
 	float initial_rotation, last_rotation;
 
 	double net_forward, net_lateral;

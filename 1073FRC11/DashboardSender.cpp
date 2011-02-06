@@ -14,11 +14,13 @@
 
 #include "DashboardSender.h"
 #include "Encoders1073.h"
+#include "SmartJoystick.h"
+#include "SmartGyro.h"
 
 DashboardSender::DashboardSender(DriverStation *dash, 
 		Encoders1073 *enc, 
-		Joystick *lJ, Joystick *rJ,
-		Gyro *gyr)
+		SmartJoystick *lJ, SmartJoystick *rJ,
+		SmartGyro *gyr)
 : ds(dash), 
 encoders(enc),
 leftJoystick(lJ), rightJoystick(rJ),

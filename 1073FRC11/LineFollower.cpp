@@ -1,6 +1,8 @@
 #include "LineFollower.h"
+#include "SmartJoystick.h"
+#include "SmartGyro.h"
 
-LineFollower::LineFollower(LNDrive *d, Joystick *ljoy, Joystick *rjoy, DigitalInput *llsensor,  DigitalInput *mlsensor, DigitalInput *rlsensor, Encoders1073 *enc)
+LineFollower::LineFollower(LNDrive *d, SmartJoystick *ljoy, SmartJoystick *rjoy, DigitalInput *llsensor,  DigitalInput *mlsensor, DigitalInput *rlsensor, Encoders1073 *enc)
 {
 	drive = d;
 	leftJoystick = ljoy;

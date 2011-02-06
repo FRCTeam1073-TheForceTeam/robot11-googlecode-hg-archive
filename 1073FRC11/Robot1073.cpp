@@ -18,13 +18,23 @@ Robot1073::Robot1073(void)
 	
 	leftMotorJaguar = new SmartJaguarMotorEncoder(CAN_LeftMotorAddress, DriveWheelPulsesPerFoot, IsLeftMotorReversed, IsLeftEncoderReversed);
 	rightMotorJaguar = new SmartJaguarMotorEncoder(CAN_RightMotorAddress, DriveWheelPulsesPerFoot, IsRightMotorReversed, IsRightEncoderReversed);
+
+	// Until we have a base with these motors configured, cannot create the Jag objects.  The robot
+	// loops returning error -52007 (NI Platform Services: The operation did not return in time).  
 	
+	pincerJaguar = NULL;
+	armJaguar = NULL;
+	
+	elevatorJaguarMotorA = NULL;
+	elevatorJaguarMotorB = NULL;
+#if 0
 	pincerJaguar = new CANJaguar(CAN_PincerMotorAddress);
 	armJaguar = new CANJaguar(CAN_ElevatorArmMotorAddress);
 	
 	elevatorJaguarMotorA = new SmartJaguarMotorEncoder(CAN_ElevatorUpDownAMotorAddress, ElevatorPulsesPerFoot);
 	elevatorJaguarMotorB = new SmartJaguarMotorEncoder(CAN_ElevatorUpDownBMotorAddress);
-
+#endif
+	
 	// Should rev
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
 	rightJoystick = new SmartJoystick(USB_RightJoystickPort);

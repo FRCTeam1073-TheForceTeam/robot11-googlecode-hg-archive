@@ -1,6 +1,6 @@
 #include "LNDrive.h"
 
-LNDrive::LNDrive(SpeedController *lmj, SpeedController *rmj, Joystick *lj, Joystick *rj, Navigation *n, Encoders1073 *enc)
+LNDrive::LNDrive(SmartJaguarMotorEncoder *lmj, SmartJaguarMotorEncoder *rmj, SmartJoystick *lj, SmartJoystick *rj, Navigation *n, Encoders1073 *enc)
 {
 	leftJoystick = lj;
 	rightJoystick = rj;
@@ -126,8 +126,8 @@ void LNDrive::Scale()
 void LNDrive::SetMotors()
 {
 	// Set the left & right motor outputs, reversing if necessary...
-	leftMotorJaguar->Set(IsLeftMotorReversed ? -left : left);			
-	rightMotorJaguar->Set(IsRightMotorReversed ? -right : right);
+	leftMotorJaguar->Set(left);			
+	rightMotorJaguar->Set(right);
 	//printf("%f %f\n", left, right);
 }
 

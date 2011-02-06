@@ -12,6 +12,8 @@
 
 #include "WPILib.h"
 #include "SmartJagMotor.h"
+class SmartJoystick;
+class SmartGyro;
 
 #include <stdio.h>
 
@@ -20,7 +22,7 @@ class Elevator
 {
 	
 public:
-	Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, Joystick *e);
+	Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, SmartJoystick *e);
 	
 	void GoToPositionFeet(float ft);
 	void GoToPositionIndex(int index);  // Go to positions 1 through 6
@@ -38,7 +40,7 @@ private:
     SmartJaguarMotorEncoder *motorA;
     SmartJaguarMotorEncoder *motorB;
     Servo *servo;
-    Joystick *joystick;
+    SmartJoystick *joystick;
     bool isHoming;
 };
 

@@ -15,6 +15,17 @@ public:
 	{									// Our SmartJoystick simply inverts the Joystick to a more
 	   return -1 * Joystick::GetY();  	// logical perspective such that forward is positive
 	}									// and pulling back is negative...
+	
+	float GetYUnaltered()		// for diagnostic purposes, the unadulterated stick value
+	{									
+	   return Joystick::GetY();  	
+	}
+	
+	float GetXUnaltered()	// for symmetry
+	{
+		return Joystick::GetX();
+	}
+
 };
 
 #endif

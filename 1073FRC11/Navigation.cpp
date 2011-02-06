@@ -1,6 +1,7 @@
 #include "Navigation.h"
+#include "SmartGyro.h"
 
-Navigation::Navigation(Encoders1073 *enc, ADXL345_I2C *accel, Gyro *g, Timer *t)
+Navigation::Navigation(Encoders1073 *enc, ADXL345_I2C *accel, SmartGyro *g, Timer *t)
 {
 	encoders = enc;
 	accelerometer = accel;

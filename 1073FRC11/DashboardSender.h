@@ -14,21 +14,23 @@
 
 class DashboardSender;
 class Encoders1073;
+class SmartJoystick;
+class SmartGyro;
 
 class DashboardSender
 {
 	public:
 		
-		DashboardSender(DriverStation *dash, Encoders1073 *enc, Joystick *lJoystick, Joystick *rJoystick, Gyro *gyr);
+		DashboardSender(DriverStation *dash, Encoders1073 *enc, SmartJoystick *lJoystick, SmartJoystick *rJoystick, SmartGyro *gyr);
 		void SendData(void);
 		void SendConstants(void);
 
 	private:
 		DriverStation *ds;
 		Encoders1073 *encoders;
-		Joystick *leftJoystick;
-		Joystick *rightJoystick;
-		Gyro *gyro;
+		SmartJoystick *leftJoystick;
+		SmartJoystick *rightJoystick;
+		SmartGyro *gyro;
 };
 
 #endif
