@@ -1,25 +1,25 @@
 //////////////////////////////////////////////////////////
 // Filename: SmartJagMotor.cpp
-// Author:   
+// Author:   John Heden / Ken Cowan
 // Date:     Feb 6, 2010
 //
 // Defines a SmartJagMotor that provides encapsulated Jag motor/encoder functionality
 //
 //////////////////////////////////////////////////////////
-#include <stdio.h>
-#include "WPILib.h"
 #include "SmartJagMotor.h"
 
 
 
 // Need the CAN address of this motor, encoder pulses per ft, and whether motors & encoders are reversed... 
-SmartJaguarMotorEncoder::SmartJaguarMotorEncoder(int canAddress, int pulsesPerFt, bool reverseMotor, bool reverseEncoder) 
-: CANJaguar(canAddress),								// pass this address to base class constructor
+SmartJaguarMotorEncoder::SmartJaguarMotorEncoder(UINT8 deviceNumber, UINT16 _pulsesPerFt, bool reverseMotor, bool reverseEncoder, double changeThreshold) 
+: CANJaguar(deviceNumber),								// pass this address to base class constructor
   isMotorReversed(reverseMotor),
-  isEncoderReversed(reverseEncoder)
+  isEncoderReversed(reverseEncoder),
+  pulsesPerFt(_pulsesPerFt),
+  threshold(changeThreshold)
 {
 	SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-	ConfigEncoderCodesPerRev(pulsesPerFt);
+	ConfigEncoderCodesPerRev(_pulsesPerFt);
 	
 	ResetEncoder();
 }
@@ -34,6 +34,8 @@ SmartJaguarMotorEncoder::ResetEncoder()
 	DisableControl();
 	EnableControl(0.0);
 	ChangeControlMode(oldMode);
+	
+	initial_val = GetPositionUnaltered();
 }
 
 
@@ -45,13 +47,43 @@ SmartJaguarMotorEncoder::Set(float value)
 	CANJaguar::Set(value);
 }
 
-double
-SmartJaguarMotorEncoder::GetPosition()
+double SmartJaguarMotorEncoder::GetPosition()
 {
-	double pos = CANJaguar::GetPosition();
-	
+	// Position as read from encoder, via CANJaguar
+	double pure_pos = GetPositionUnaltered();
+
 	if(isEncoderReversed)	//If encoder is reversed, reverse value
-		pos *= -1.0;	
-	return pos;
+		pure_pos *= -1.0;
+	
+	// Position relative to the initial position
+	double relative_pos = pure_pos - initial_val;
+	
+	// Distance the encoder counted
+	double delta = relative_pos - last_val;
+	
+	// If the change is small, use the last saved position.  Assuming
+	// it is noise on the cable or something
+	if (fabs(delta) < threshold)
+		relative_pos = last_val;
+	
+	// Save the position for the next time we're called
+	last_val = relative_pos;
+	
+	return relative_pos;
 }
+
+double SmartJaguarMotorEncoder::GetNetPosition()
+{
+	double saved_last_val = last_val;
+	double pos = GetPosition(); // note that GetPosition() updates last_val;
+	double delta = pos - saved_last_val;
+	
+	return delta;
+}
+
+double SmartJaguarMotorEncoder::GetPositionUnaltered()
+{
+	return this->CANJaguar::GetPosition();
+}
+
 

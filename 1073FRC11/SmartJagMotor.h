@@ -8,24 +8,41 @@
 #ifndef __SmartJaguarMotor_h__
 #define __SmartJaguarMotor_h__
 
-#include "WPILib.h"
-#include "Vision\AxisCamera.h"
+#include "userincludes.h"
 
+static const double kDefaultThreshold = 0.01;
 
 class SmartJaguarMotorEncoder : public CANJaguar
 {
 public: 
 	// Need the CAN address of this motor & pulses per ft, 
-	SmartJaguarMotorEncoder(int canAddress, int PulsesPerFt = 0, bool reverseMotor = false, bool reverseEncoder = false);	
+	SmartJaguarMotorEncoder(UINT8 deviceNumber, UINT16 _PulsesPerFt = 0, bool reverseMotor = false, bool reverseEncoder = false, double changeThreshold = kDefaultThreshold);	
 	void Set(float value);
 	
-	// Encoder functions
-	void ResetEncoder();
+	// Reset the encoder to 0
+	void ResetEncoder();	
+	
+	// Return the position, where noise has been removed
 	double GetPosition();
+	
+	// Return the distance the encoder has moved since the last call
+	double GetNetPosition();
+	
+	// Return the raw position data.  Useful to diagnose bad cables etc.
+	double GetPositionUnaltered();
+	
+	// Use this to display debugging messages
+	UINT16 GetPulsePerFt() { return pulsesPerFt; }
 
 private: 
 	bool isMotorReversed;
-	bool isEncoderReversed;								
+	bool isEncoderReversed;	
+	
+	UINT16 pulsesPerFt;		// scaling factor for the encoder attached to this Jaguar		
+	
+	double initial_val;		// initial value for the encoder, 0 if it reset properly
+	double last_val;		// last recorded value for encoder
+	double threshold;  		// if the encoder moves less that this, ignore the motion
 };
 
 

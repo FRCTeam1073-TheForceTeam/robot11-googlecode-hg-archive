@@ -11,9 +11,6 @@
 #include "Encoders1073.h"
 
 static const double PI = 2*acos(0.0);
-// Wheel is .5 foot diameter.  We found by experimenting 962 pulses per rotation of wheel
-static int encoderCodes = 600; // found through experimentation
-
 	
 float mod360(float lhs) 
 {
@@ -23,33 +20,17 @@ float mod360(float lhs)
 		return lhs;
 }
 
-void ResetOne(CANJaguar *jag, double *pInit_val)
-{
-	CANJaguar::ControlMode oldMode = jag->GetControlMode();
-	jag->ChangeControlMode(CANJaguar::kPosition);
-	jag->DisableControl();
-	jag->EnableControl(0.0);
-	jag->ChangeControlMode(oldMode);
-	
-	*pInit_val = jag->GetPosition();
-}
-
-void InitOne(CANJaguar *jag, double *pInit_val)
-{
-	jag->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-	
-	jag->ConfigEncoderCodesPerRev(encoderCodes);
-	
-	ResetOne(jag, pInit_val);
-}
 
 Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 {
-	printf("Encoders1073 ctor scale %d\n", encoderCodes);	
+	printf("Encoders1073 ctor scale %d\n", leftEncoder->GetEncoderScaler());	
 	
 	gyro = g;
 	leftJag = left;
 	rightJag = right;
+	
+	leftEncoder = new SmartEncoder(leftJag);
+	rightEncoder = new SmartEncoder(rightJag);
 	
 	InitEncoders();
 	
@@ -64,28 +45,23 @@ Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 
 void Encoders1073::ResetEncoders()
 {		
-	ResetOne(leftJag, &initial_left);
-	ResetOne(rightJag, &initial_right);
+	leftEncoder->ResetEncoder();
+	rightEncoder->ResetEncoder();
 }
 
 void Encoders1073::InitEncoders()
 {
-	InitOne(leftJag, &initial_left);
-	InitOne(rightJag, &initial_right);
+	leftEncoder->InitEncoder();
+	rightEncoder->InitEncoder();
 }
 
 void Encoders1073::PeriodicService()
 {
-	double left = leftJag->GetPosition();
-	double right = rightJag->GetPosition();
 	float rotation = mod360(gyro->GetAngle());
 	
 	// Compute the distance each wheel rotated
-	double left_travelled = left - last_left;
-	last_left = left;
-	
-	double right_travelled = right - last_right;
-	last_right = right;
+	double left_travelled = leftEncoder->GetNetPosition();	
+	double right_travelled = rightEncoder->GetNetPosition();
 	
 	// Compute the direction robot moved, relative to the initial orientation
 	// if the robot moves in a straight line, angle will be 0

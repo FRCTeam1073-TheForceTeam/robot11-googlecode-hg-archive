@@ -169,7 +169,7 @@ enum {RELAY_PORT_1 = 1,
 	static const float PulsesPerFoot = 660; // exact
 	static const float AngleStraightHome = 0;
 	static const float AngleStraightAway = 180;
-	static const int ElevatorPulsesPerFoot = 200;
+	static const UINT16 ElevatorPulsesPerFoot = 200;
 	
 
 #define sizeof_array(ARRAY) (sizeof(ARRAY)/sizeof(ARRAY[0])) 

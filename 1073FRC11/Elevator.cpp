@@ -6,13 +6,13 @@
 
 //find actual values for brake on, brake off, and maxspeed
 
-const float leewayfeet = ((1/12)/2.54); //error range for elevator height
-const float Kp = 1.0;
-const float maxSpeed = .5;
-const float servoBrakeOn = -1;
-const float servoBrakeOff = 1.0;
-const float startingPoint = 1; //change later to the height of the base of the robot
-float heights[] = { .5, 1.0, 1.5, 2.0, 2.5, 3.0 };
+static const float leewayfeet = ((1/12)/2.54); //error range for elevator height
+static const float Kp = 1.0;
+static const float maxSpeed = .5;
+static const float servoBrakeOn = -1;
+static const float servoBrakeOff = 1.0;
+static const float startingPoint = 1; //change later to the height of the base of the robot
+static float heights[] = { .5, 1.0, 1.5, 2.0, 2.5, 3.0 };
 
 Elevator::Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, Joystick *e)
 {

@@ -31,10 +31,12 @@ Robot1073::Robot1073(void)
 	
 	
 	
-	gyro = new Gyro(ANALOG_GyroPort);
+	gyro = new SmartGyro(ANALOG_GyroPort);
 	gyro->Reset();
+	
 	servo = new Servo(5);
-	accelerometer = new ADXL345_I2C(SensorBase::GetDefaultDigitalModule());
+	
+	accelerometer = new ADXL345_I2C(ADXL345_I2C::GetDefaultDigitalModule());
 	timer = new Timer();
 
 	leftLineSensor = new DigitalInput(DIO_LeftLightSensorPort);

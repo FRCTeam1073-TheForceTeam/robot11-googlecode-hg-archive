@@ -9,8 +9,10 @@
 #include "DashboardReceiver.h"
 #include "LineFollower.h"
 #include "Encoders1073.h"
-#include "smartjoystick.h"
-#include "smartJagMotor.h"
+#include "SmartJoystick.h"
+#include "SmartJagMotor.h"
+#include "SmartGyro.h"
+
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -46,7 +48,7 @@ class Robot1073: public SimpleRobot
 		Encoders1073 *encoders;
 		
 		ADXL345_I2C *accelerometer;
-		Gyro *gyro;
+		SmartGyro *gyro;
 		Servo *servo;
 		Timer *timer;
 		Navigation *navigation;

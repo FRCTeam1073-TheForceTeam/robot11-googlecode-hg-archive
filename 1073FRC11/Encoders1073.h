@@ -8,21 +8,25 @@
 // distance travelled
 //
 //////////////////////////////////////////////////////////
-#ifndef ENCODERS1073_H_
-#define ENCODERS1073_H_
+
 
 #include "userincludes.h"
-#include "wpilib.h"
+#include "SmartEncoder.h"
+
+#ifndef ENCODERS1073_H_
+#define ENCODERS1073_H_
 
 class Encoders1073
 {
 protected:
+	SmartEncoder *leftEncoder;
+	SmartEncoder *rightEncoder;
+	
 	CANJaguar *leftJag;
 	CANJaguar *rightJag;
 	Gyro *gyro;
 	
-	double initial_left, last_left;
-	double initial_right, last_right;
+
 	float initial_rotation, last_rotation;
 
 	double net_forward, net_lateral;
@@ -34,7 +38,7 @@ public:
 	void ResetEncoders();
 	void InitEncoders();
 	void PeriodicService();
-	std::pair<double, double> GetDistance() { return pair<double, double>( leftJag->GetPosition(), rightJag->GetPosition() );}
+	std::pair<double, double> GetDistance() { return pair<double, double>( leftEncoder->GetPosition(), rightEncoder->GetPosition() );}
 	
 	// The "net" functions work like a trip odometer and will indicate how far the robot has travelled since the last Reset
 	double GetNetForwardDistance() { return net_forward; }
