@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "WPILib.h"
+#include "userincludes.h"
 #include "Elevator.h"
 #include "math.h"
 
@@ -13,12 +14,12 @@ const float servoBrakeOff = 1.0;
 const float startingPoint = 1; //change later to the height of the base of the robot
 float heights[] = { .5, 1.0, 1.5, 2.0, 2.5, 3.0 };
 
-Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1, Joystick *e)
+Elevator::Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, Joystick *e)
 {
 	motorA = ma;
 	motorB = mb;
 	servo = s1;
-	targetposition = 5.0;
+	targetPosition = 0.0;
 	joystick = e;
 }
 
@@ -26,18 +27,18 @@ Elevator::Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1, Joystick *e)
 void
 Elevator::GoToPositionFeet(float ft) // sets the target position
 {
-	targetposition = ft;
+	targetPosition = ft;
 }
 float
 Elevator::GetTargetPositionFeet() //modifies and returns target position to account for height - base
 {
-	return (targetposition - startingPoint);
+	return (targetPosition - startingPoint);
 }
 bool
 Elevator::IsAtTargetPosition() // checks to see if the elevator is at the target position, returns true if it is
 {
 	float current = GetCurrentPositionFeet();
-	float dis = (fabs(current - targetposition));
+	float dis = (fabs(current - targetPosition));
 	
 	if(dis < leewayfeet)
 	{
@@ -70,18 +71,20 @@ Elevator::GoToPositionIndex(int index)
 void
 Elevator::CheckJoystick()
 {
-		bool isButtonTwelvePressed = joystick->GetRawButton(12);
-		static bool wasButtonTwelvePressed = false;
-		int c = 0;
+		static bool wasButtonElevatorTestPressed = false;	
+		static unsigned int testIndex = 0;
 		
-		if(isButtonTwelvePressed && !wasButtonTwelvePressed)
+		bool isButtonElevatorTestPressed = joystick->GetRawButton(ElevatorNextPositionTestButton);
+		
+		
+		if(isButtonElevatorTestPressed && !wasButtonElevatorTestPressed)
 		{
-			GoToPositionFeet(heights[c]);
-			c++;
-			if(c >= 5)
-				c = 0;
+			testIndex++;
+			if(testIndex > sizeof_array(heights))
+				testIndex = 0;
+			GoToPositionFeet(heights[testIndex]);	
 		}
-		wasButtonTwelvePressed = isButtonTwelvePressed;
+		wasButtonElevatorTestPressed = isButtonElevatorTestPressed;
 }
 void
 Elevator::PeriodicService()
@@ -99,14 +102,15 @@ Elevator::PeriodicService()
 		isHoming = false;
 		motorA->Set(0);
 		motorB->Set(0);
-		
+		motorA->ResetEncoder();
+		targetPosition = 0;
 	}
 	
 		
 	
 	float positionNow = GetCurrentPositionFeet();
 	
-	float err = (targetposition - positionNow);
+	float err = (targetPosition - positionNow);
 	
 	float output = err*Kp;
 	

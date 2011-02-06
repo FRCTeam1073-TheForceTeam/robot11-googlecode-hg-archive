@@ -158,7 +158,9 @@ enum {RELAY_PORT_1 = 1,
 	static const int GripTiltDownButton = 9;
 	static const int ArmUpButton = 6;
 	static const int ArmDownButton = 4;
-	static const int CameraSwitchButton = 2;	
+	static const int CameraSwitchButton = 2;
+	
+	static const int ElevatorNextPositionTestButton = 3;
 	
 //Other Useful(?) Constants
 	static const float WaitTime = .05;
@@ -170,5 +172,7 @@ enum {RELAY_PORT_1 = 1,
 	static const int ElevatorPulsesPerFoot = 200;
 	
 
+#define sizeof_array(ARRAY) (sizeof(ARRAY)/sizeof(ARRAY[0])) 
+	
 
 #endif

@@ -11,7 +11,8 @@
 #define __CameraManager_h__
 
 #include "WPILib.h"
-#include "Vision\AxisCamera.h"
+#include "SmartJagMotor.h"
+
 #include <stdio.h>
 
 
@@ -19,7 +20,7 @@ class Elevator
 {
 	
 public:
-	Elevator(CANJaguar *ma, CANJaguar *mb, Servo *s1, Joystick *e);
+	Elevator(SmartJaguarMotorEncoder *ma, SmartJaguarMotorEncoder *mb, Servo *s1, Joystick *e);
 	
 	void GoToPositionFeet(float ft);
 	void GoToPositionIndex(int index);  // Go to positions 1 through 6
@@ -33,9 +34,9 @@ public:
 private:
 	
 	void SetBrake(bool brake);
-    float targetposition;
-    CANJaguar *motorA;
-    CANJaguar *motorB;
+    float targetPosition;
+    SmartJaguarMotorEncoder *motorA;
+    SmartJaguarMotorEncoder *motorB;
     Servo *servo;
     Joystick *joystick;
     bool isHoming;
