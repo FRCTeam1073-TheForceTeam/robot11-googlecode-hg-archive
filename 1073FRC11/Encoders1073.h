@@ -11,7 +11,8 @@
 
 
 #include "userincludes.h"
-#include "SmartEncoder.h"
+#include "SmartJagMotor.h"
+#include "SmartGyro.h"
 
 #ifndef ENCODERS1073_H_
 #define ENCODERS1073_H_
@@ -19,12 +20,10 @@
 class Encoders1073
 {
 protected:
-	SmartEncoder *leftEncoder;
-	SmartEncoder *rightEncoder;
-	
-	CANJaguar *leftJag;
-	CANJaguar *rightJag;
-	Gyro *gyro;
+	SmartJaguarMotorEncoder *leftJag;
+	SmartJaguarMotorEncoder *rightJag;
+
+	SmartGyro *gyro;
 	
 
 	float initial_rotation, last_rotation;
@@ -34,11 +33,12 @@ protected:
 	double total_forward, total_lateral;
 	
 public:
-	Encoders1073(Gyro *g, CANJaguar *leftJag, CANJaguar *rightJag);
+	Encoders1073(SmartGyro *g, SmartJaguarMotorEncoder *leftJag, SmartJaguarMotorEncoder *rightJag);
 	void ResetEncoders();
 	void InitEncoders();
 	void PeriodicService();
-	std::pair<double, double> GetDistance() { return pair<double, double>( leftEncoder->GetPosition(), rightEncoder->GetPosition() );}
+	std::pair<double, double> GetDistance() { return pair<double, double>( leftJag->GetPosition(), rightJag->GetPosition() );}
+	std::pair<double, double> GetDistanceUnaltered() { return pair<double, double>( leftJag->GetPositionUnaltered(), rightJag->GetPositionUnaltered()); }
 	
 	// The "net" functions work like a trip odometer and will indicate how far the robot has travelled since the last Reset
 	double GetNetForwardDistance() { return net_forward; }

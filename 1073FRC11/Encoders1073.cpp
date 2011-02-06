@@ -21,18 +21,13 @@ float mod360(float lhs)
 }
 
 
-Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
+Encoders1073::Encoders1073(SmartGyro *g, SmartJaguarMotorEncoder *left, SmartJaguarMotorEncoder *right)
 {
-	printf("Encoders1073 ctor scale %d\n", leftEncoder->GetEncoderScaler());	
+	printf("Encoders1073 ctor scale %d\n", left->GetPulsePerFt());	
 	
 	gyro = g;
 	leftJag = left;
 	rightJag = right;
-	
-	leftEncoder = new SmartEncoder(leftJag);
-	rightEncoder = new SmartEncoder(rightJag);
-	
-	InitEncoders();
 	
 	initial_rotation = last_rotation = mod360(gyro->GetAngle()); 
 
@@ -45,14 +40,8 @@ Encoders1073::Encoders1073(Gyro *g, CANJaguar *left, CANJaguar *right)
 
 void Encoders1073::ResetEncoders()
 {		
-	leftEncoder->ResetEncoder();
-	rightEncoder->ResetEncoder();
-}
-
-void Encoders1073::InitEncoders()
-{
-	leftEncoder->InitEncoder();
-	rightEncoder->InitEncoder();
+	leftJag->ResetEncoder();
+	rightJag->ResetEncoder();
 }
 
 void Encoders1073::PeriodicService()
@@ -60,8 +49,8 @@ void Encoders1073::PeriodicService()
 	float rotation = mod360(gyro->GetAngle());
 	
 	// Compute the distance each wheel rotated
-	double left_travelled = leftEncoder->GetNetPosition();	
-	double right_travelled = rightEncoder->GetNetPosition();
+	double left_travelled = leftJag->GetNetPosition();	
+	double right_travelled = rightJag->GetNetPosition();
 	
 	// Compute the direction robot moved, relative to the initial orientation
 	// if the robot moves in a straight line, angle will be 0

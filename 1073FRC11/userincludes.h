@@ -171,6 +171,8 @@ enum {RELAY_PORT_1 = 1,
 	static const float AngleStraightAway = 180;
 	static const UINT16 ElevatorPulsesPerFoot = 200;
 	
+	static const UINT16 DriveWheelPulsesPerFoot = 600; // found through experimentation
+	
 
 #define sizeof_array(ARRAY) (sizeof(ARRAY)/sizeof(ARRAY[0])) 
 	

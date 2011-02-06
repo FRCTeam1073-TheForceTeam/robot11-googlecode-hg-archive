@@ -16,9 +16,9 @@ Robot1073::Robot1073(void)
 	driverStation = DriverStation::GetInstance();
 
 	
-// Both the PWM & CAN Jaguars are suportable with this simple comple time option...	
-	leftMotorJaguar = new CANJaguar(CAN_LeftMotorAddress);
-	rightMotorJaguar = new CANJaguar(CAN_RightMotorAddress);
+	leftMotorJaguar = new SmartJaguarMotorEncoder(CAN_LeftMotorAddress, DriveWheelPulsesPerFoot, IsLeftMotorReversed, IsLeftEncoderReversed);
+	rightMotorJaguar = new SmartJaguarMotorEncoder(CAN_RightMotorAddress, DriveWheelPulsesPerFoot, IsRightMotorReversed, IsRightEncoderReversed);
+	
 	pincerJaguar = new CANJaguar(CAN_PincerMotorAddress);
 	armJaguar = new CANJaguar(CAN_ElevatorArmMotorAddress);
 	

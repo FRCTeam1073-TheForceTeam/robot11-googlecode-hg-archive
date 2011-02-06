@@ -36,8 +36,8 @@ class Robot1073: public SimpleRobot
 		DriverStation *driverStation;
 		
 		// Pointers for each of 6 Jaguar Motots
-		CANJaguar *leftMotorJaguar;
-		CANJaguar *rightMotorJaguar;
+		SmartJaguarMotorEncoder *leftMotorJaguar;
+		SmartJaguarMotorEncoder *rightMotorJaguar;
 		CANJaguar *pincerJaguar;
 		CANJaguar *armJaguar;
 		SmartJaguarMotorEncoder *elevatorJaguarMotorA;
