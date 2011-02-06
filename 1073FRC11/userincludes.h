@@ -88,7 +88,7 @@ enum {RELAY_PORT_1 = 1,
 //I2C Slot
 	static const int IO_Slot = 4;
 	
-// Relay inputs for 3 spikes 
+// Relay inputs for 4 spikes 
 	static const int RELAY_MinibotDeployer = 	RELAY_PORT_1;	// Spike 1 -> For/Rev/Off
 	static const int RELAY_MinibotPositioner = RELAY_PORT_2;	
 	static const int RELAY_PincerRoller = 	  RELAY_PORT_3;		// Spike 3 -> For/Rev/Off
@@ -167,6 +167,7 @@ enum {RELAY_PORT_1 = 1,
 	static const float PulsesPerFoot = 660; // exact
 	static const float AngleStraightHome = 0;
 	static const float AngleStraightAway = 180;
+	static const int ElevatorPulsesPerFoot = 200;
 	
 
 

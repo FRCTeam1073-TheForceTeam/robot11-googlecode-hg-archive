@@ -10,6 +10,7 @@
 #include "LineFollower.h"
 #include "Encoders1073.h"
 #include "smartjoystick.h"
+#include "smartJagMotor.h"
 //////////////////////////////////////////////////////////
 // Filename: Robot1073.h
 // Author:   
@@ -31,10 +32,15 @@ class Robot1073: public SimpleRobot
 	private:
 		AxisCamera &camera;          // This reference syntax necessary because of the referance associated with GetInstance().
 		DriverStation *driverStation;
+		
+		// Pointers for each of 6 Jaguar Motots
 		CANJaguar *leftMotorJaguar;
 		CANJaguar *rightMotorJaguar;
 		CANJaguar *pincerJaguar;
 		CANJaguar *armJaguar;
+		SmartJaguarMotorEncoder *elevatorJaguarMotorA;
+		SmartJaguarMotorEncoder *elevatorJaguarMotorB;
+		
 		SmartJoystick *leftJoystick;
 		SmartJoystick *rightJoystick;
 		Encoders1073 *encoders;
@@ -57,8 +63,6 @@ class Robot1073: public SimpleRobot
 		
 		void InitializeTheZombieZone(Robot1073 *ptr);
 		void InitializeDashboardReceiverThread(Robot1073 *, DashboardReceiver *);
-
-
 };
 
 

@@ -22,6 +22,9 @@ Robot1073::Robot1073(void)
 	pincerJaguar = new CANJaguar(CAN_PincerMotorAddress);
 	armJaguar = new CANJaguar(CAN_ElevatorArmMotorAddress);
 	
+	elevatorJaguarMotorA = new SmartJaguarMotorEncoder(CAN_ElevatorUpDownAMotorAddress, ElevatorPulsesPerFoot);
+	elevatorJaguarMotorB = new SmartJaguarMotorEncoder(CAN_ElevatorUpDownBMotorAddress);
+
 	// Should rev
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
 	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
