@@ -13,10 +13,10 @@ DriverMessages::DriverMessages(SmartJoystick *jStick, SmartGyro *gyroPtr, Encode
 
 void DriverMessages::PeriodicService()
 {
-	bool isButtonSixPressed = menuJoystick->GetRawButton(6);
-	static bool wasButtonSixPressed = false;
+	bool isButtonClicked = menuJoystick->ButtonClickDown(CycleDriverStationDiagsButton);
 	std::pair<double, double> lrDistance;
 	std::pair<double, double> lrUnaltered;
+	std::pair<double, double> xyVelocity;
 	
 	
 	float xVal = menuJoystick->GetX();
@@ -32,13 +32,16 @@ void DriverMessages::PeriodicService()
 				PrintIt(2, "Y=%6.3f (%6.3f)", yVal, rawY);
 				break;
 	case 1:     PrintIt(0, "Gyro=%3.5f", gyro->GetAngle());
-				PrintIt(1, "Heading=%3.5f", navigation->GetHeading());
+				PrintIt(1, "Raw gyro=%3.5f", gyro->GetAngleUnaltered());
+				PrintIt(2, "Heading=%3.5f", navigation->GetHeading());
 				break;
-	case 2:     PrintIt(0, "Encoders:");
+	case 2:     //PrintIt(0, "Encoders:");
 				lrDistance = encoders->GetDistance();
 				lrUnaltered = encoders->GetDistanceUnaltered();
-	 			PrintIt(1, "l:%f (%f)", lrDistance.first, lrUnaltered.first);
-	 			PrintIt(2, "r:%f (%f)", lrDistance.second, lrUnaltered.second);
+				xyVelocity = encoders->GetXYVelocity();
+	 			PrintIt(0, "l:%f (%f)", lrDistance.first, lrUnaltered.first);
+	 			PrintIt(1, "r:%f (%f)", lrDistance.second, lrUnaltered.second);
+	 			PrintIt(2, "x:%f, y:%f", xyVelocity.first, xyVelocity.second);
 	 			break;
 #define MAX_CASE 3 // update this if you add another case statement
 	case 3:		PrintIt(0, "Distance:");
@@ -53,13 +56,13 @@ void DriverMessages::PeriodicService()
 	SendTextLines();
 	
 	
-	if(isButtonSixPressed && !wasButtonSixPressed){   	// Is the button currently pressed
+	if(isButtonClicked){   		// Has the button clicked down
 		displayIndex += 1;		// Set bext display count.
 		if(displayIndex > MAX_CASE){   // Increment the value until the last number in case statemen
 			displayIndex = 0;	// Cycle back to the 0th index
 		}
 	}
-	wasButtonSixPressed = isButtonSixPressed;
+
 }
 
 void

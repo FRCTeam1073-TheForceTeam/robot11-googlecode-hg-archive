@@ -87,5 +87,3 @@ double SmartJaguarMotorEncoder::GetPositionUnaltered()
 {
 	return this->CANJaguar::GetPosition();
 }
-
-

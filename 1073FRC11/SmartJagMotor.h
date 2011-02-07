@@ -33,7 +33,7 @@ public:
 	
 	// Use this to display debugging messages
 	UINT16 GetPulsePerFt() { return pulsesPerFt; }
-
+	
 private: 
 	bool isMotorReversed;
 	bool isEncoderReversed;	

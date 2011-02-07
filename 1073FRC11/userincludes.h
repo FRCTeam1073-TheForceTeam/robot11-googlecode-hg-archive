@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <time.h>
 
 enum {PWM_PORT_1 = 1,
 	  PWM_PORT_2,
@@ -88,31 +89,23 @@ enum {RELAY_PORT_1 = 1,
 //I2C Slot
 	static const int IO_Slot = 4;
 	
-// Relay inputs for 4 spikes 
+	// Relay inputs for 4 spikes 
 	static const int RELAY_MinibotDeployer = 	RELAY_PORT_1;	// Spike 1 -> For/Rev/Off
 	static const int RELAY_MinibotPositioner = RELAY_PORT_2;	
 	static const int RELAY_PincerRoller = 	  RELAY_PORT_3;		// Spike 3 -> For/Rev/Off
 	static const int RELAY_RetroIlluminator = RELAY_PORT_4;	// Spike 4 -> For/Off = light On/off
 	
-//varius Analog Port defines (5 total)
+	//various Analog Port defines (5 total)
 	static const int ANALOG_GyroPort = ANALOG_PORT_1; //Gyro can ONLY be placed on Port 1
 	static const int ANALOG_PincerMagneticEncoder = ANALOG_PORT_2;
 	static const int ANALOG_ElevatorArmMagneticEncoder = ANALOG_PORT_3;
 	
-
+	//PWM ports in use	
+	static const int PWM_ChasisCamera = PWM_PORT_5;
 	
-	
-// Soon to obsoleted connections once CAN transition complete, maintained to allow burrent build...
-	static const int PWM_LeftMotorPort = 	PWM_PORT_1; 
-	static const int PWM_RightMotorPort = 	PWM_PORT_2;
-	static const int DIO_LeftEncoderAPort = DIGITAL_PORT_5;
-	static const int DIO_LeftEncoderBPort = DIGITAL_PORT_6;
-	static const int DIO_RightEncoderAPort = DIGITAL_PORT_8;
-	static const int DIO_RightEncoderBPort = DIGITAL_PORT_9;
+	// Digital I/O ports in use
 	static const int DIO_ElevatorUpDownEncoderAPort = DIGITAL_PORT_10;
 	static const int DIO_ElevatorUpDownEncoderBPort = DIGITAL_PORT_11;
-	
-	
 	
 	
 	// Let's define  orientation  motors & encoders...
@@ -136,6 +129,7 @@ enum {RELAY_PORT_1 = 1,
 	
 	static const int LeftTurboButton = 1;
 	static const int TurnToRackButton = 2;
+	static const int CycleDriverStationDiagsButton = 6;
 	static const int SwitchDriveModeButton = 10;
 	
 	//Right Joystick

@@ -39,12 +39,10 @@ Robot1073::Robot1073(void)
 	leftJoystick = new SmartJoystick(USB_LeftJoystickPort);
 	rightJoystick = new SmartJoystick(USB_RightJoystickPort);
 	
-	
-	
 	gyro = new SmartGyro(ANALOG_GyroPort);
 	gyro->Reset();
 	
-	servo = new Servo(5);
+	servo = new Servo(PWM_ChasisCamera);
 	
 	accelerometer = new ADXL345_I2C(ADXL345_I2C::GetDefaultDigitalModule());
 	timer = new Timer();

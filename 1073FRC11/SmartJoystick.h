@@ -1,6 +1,8 @@
 #ifndef SMARTJOYSTICK_H_
 #define SMARTJOYSTICK_H_
 
+#include "userincludes.h"
+
 // Stop the madness proper joystick perspective such that forward stick is positive 
 // rather than negative...
 // Let's declare our own "Joystick like" class called "SmartJoystick"
@@ -26,6 +28,13 @@ public:
 		return Joystick::GetX();
 	}
 
+	bool SmartJoystick::ButtonClickDown(UINT32 button);
+	bool SmartJoystick::ButtonClickUp(UINT32 button);
+	
+protected:
+	typedef map<UINT32, bool> StateMap; 
+	StateMap buttonStates;
+	
 };
 
 #endif
