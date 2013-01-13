@@ -14,6 +14,7 @@
 
 // This important static is to allow our launched ZombieZone thread to access our main Robot class. 
 // This static is used exclusively to call the main bots ZombieZonePeriodicServics().
+// This is a test for merging/commiting
 static Robot1073 *pRobot1073;
 const float periodicIntervalSec = .05;
 
